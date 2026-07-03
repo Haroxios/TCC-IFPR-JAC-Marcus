@@ -1,0 +1,148 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif
+}
+
+/*display geral*/
+#container, #cont_pagina, #cont_nomeProjeto, #cont_cadastroConta, #cont_btnEntrar, #cont_apresentacao, #cont_recuperarSenha, #cont_dadosLogin {
+    display: flex;
+    flex-direction: column;
+}
+
+/*alinhamento geral*/
+#container, #cont_pagina, #cont_btnEntrar{
+    align-items: center;
+    justify-content: center;
+}
+
+/*Bordas geral*/
+input, #cont_pagina {
+    border: 3px solid #334155;
+    border-radius: 15px;
+}
+
+/*Cor font geral*/
+#cont_nomeProjeto, #cont_dadosLogin, input, #cont_apresentacao, #cont_recuperarSenha {
+    color: #F8FAFC;
+} 
+
+
+#container {
+    height: 100vh;
+    width: 100%;
+    background-color: #0F172A;
+}
+
+#cont_nomeProjeto {
+    height: 25%;
+    width: 450px;
+    font-size: 35px;
+    align-items: center;
+    justify-content: end;
+    margin-bottom: 20px;
+}
+
+#cont_pagina {
+    height: 55%;
+    width: 450px;
+    padding: 0 10px 0 10px;
+    background-color: #1E293B;
+}
+
+#cont_cadastroConta {
+    height: 20%;
+    width: 450px;
+    padding: 0 10px 0 10px;
+    font-size: 15px;
+    color: #94A3B8;
+    align-items: center;
+    justify-content: start;
+    margin-top: 25px;
+}
+
+#cont_apresentacao {
+    height: 15%;
+    width: 90%;
+    align-items: center;
+    justify-content: start;
+    padding-top: 10px;
+}
+
+#cont_dadosLogin {
+    height: 50%;
+    width: 90%;
+    align-items: center;
+    justify-content: start;
+}
+
+#cont_recuperarSenha {
+    height: 5%;
+    width: 90%;
+    align-items: end;
+    justify-content: start;
+}
+
+#cont_btnEntrar {
+    height: 20%;
+    width: 90%;
+}
+
+#lbl_email, #lbl_senha {
+    padding-top: 20px;
+    padding-bottom: 5px;
+    font-size: 25px;
+}
+
+
+
+#p1 {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 10px; 
+}
+
+#p2 {
+    font-size: 25px;
+    color: #94A3B8;
+}
+
+
+#btn_entrar {
+    height: 60px;
+    width: 100%;
+    border-radius: 15px;
+    border: none;
+    background-color: #38BDF8;
+    color:#0F172A;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+#btn_entrar:active {
+    background-color: #49c8ff
+}
+
+
+
+
+a {
+    color: #38BDF8;
+    text-decoration: none;
+}
+
+a:active {
+    color:#49c8ff
+}
+
+
+
+input {
+    height: 60px;
+    width: 100%;
+    background-color: #0F172A;
+    font-size: 20px;
+    padding-left: 15px;
+    text-align: center
+}
+

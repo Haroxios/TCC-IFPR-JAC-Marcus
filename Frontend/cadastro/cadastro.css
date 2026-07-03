@@ -1,0 +1,133 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif
+}
+
+/*display geral*/
+#container, #cont_nomeProjeto, #cont_pagina, #cont_vazio, #cont_dadosCadastro, #cont_btnCadastro, #cont_apresentacao {
+    display: flex;
+    flex-direction: column;
+}
+
+/*alinhamento geral*/
+#container, #cont_nomeProjeto, #cont_pagina, #cont_dadosCadastro, #cont_apresentacao {
+    align-items: center;
+    justify-content: center;
+}
+
+/*Bordas geral*/
+#cont_pagina {
+    border: 3px solid #334155;
+    border-radius: 15px;
+}
+
+/*Cor font geral*/
+h1, label, p {
+    color: #F8FAFC;
+} 
+
+#container {
+    height: 100vh;
+    width: 100%;
+    background-color: #0F172A;
+}
+
+
+
+#cont_nomeProjeto {
+    height: 20%;
+    width: 450px;
+    font-size: 35px;
+    align-items: center;
+    justify-content: end;
+    margin-bottom: 20px;
+}
+
+
+
+
+#cont_pagina {
+    height: 70%;
+    width: 450px;
+    padding: 0 10px 0 10px;
+    background-color: #1E293B;
+}
+
+#cont_apresentacao {
+    height: 10%;
+    width: 90%;
+    font-size: 20px;
+
+}
+
+#cont_dadosCadastro {
+    height: 70%;
+    width: 90%;
+    justify-content: space-evenly; 
+}
+
+#cont_btnCadastro {
+    height: 20%;
+    width: 90%;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
+#cont_vazio {
+    height: 10%;
+    width: 450px;
+    align-items: center;
+    justify-content: start;
+    margin-top: 25px;
+}
+
+
+
+
+a {
+    color: #38BDF8;
+    text-decoration: none;
+    font-size: 20px;
+    margin-top: 10px;
+    /*border: solid 3px #38BDF8;
+    border-radius: 15px;*/
+}
+
+a:active {
+    color:#49c8ff
+}
+
+#btn_cadastro {
+    height: 60px;
+    width: 100%;
+    border-radius: 15px;
+    border: none;
+    background-color: #38BDF8;
+    color:#0F172A;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+#btn_cadastro:active {
+    background-color: #49c8ff
+}
+
+input {
+    height: 60px;
+    width: 100%;
+    font-size: 20px;
+    color: #F8FAFC;
+    text-align: center;
+    background-color: #0F172A;
+    padding-left: 15px;
+    border: 3px solid #334155;
+    border-radius: 15px;
+}
+
+label {
+    font-size: 22px;
+}

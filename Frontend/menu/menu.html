@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./menu.css">
+    <title>Tela Inicial</title>
+</head>
+
+<body>
+
+    <div id="container">
+
+        <div id="cont_menuEsquerdo">
+            <div id="cont_usuario">
+                <h1>Usuario</h1>
+            </div>
+
+            <div id="cont_documentosMenu">
+                <p>Próximas Revisões</p>
+                <a href="../documento/documento.html">Revisão</a>
+                <p>Cadernos(3x~)</p>
+                <a href="../documento/documento.html">Caderno</a>
+            </div>
+
+            <div id="cont_btnMenuEsquerdo">
+                <button id="btn_criar">Criar</button>
+                <a id="btn_sair" href="../index.html">Sair</a>
+            </div>
+
+        </div>
+
+        <div id="cont_painel">
+            <div id="cont_menuSuperior">
+                <div id="cont_filtros">
+                    <button id="btn_novaPasta">Nova Pasta</button>
+                    <button id="btn_ordenar">Ordenar</button>
+                    <button id="btn_filtrar">Filtrar</button>
+                </div>
+
+                <div id="cont_pesquisa">
+                    <input type="text" id="inp_procurar" placeholer="Procurar">
+                    <button id="btn_procurar">Procurar</button>
+                </div>
+            </div>
+
+            <div id="cont_documentos">
+                <div id="cont_documento">
+                    <div id="cont_titulo">
+                        <h1 id="TituloDoc">Titulo</h1>
+                        <div id="cont_status"></div>
+                    </div>
+                    <div id="cont_trecho">
+                        <p id="TrechoDoc">Pequeno trecho do documento</p>
+                    </div>
+                    <div id="cont_tag">
+                        <p id="TagDoc">Tag</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="./menu.js"></script>
+</body>
+</html>

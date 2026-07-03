@@ -1,0 +1,68 @@
+Para fazer
+
+Back
+Tudo mas nada por hora
+
+Front
+Por hora fazer apenas o design de cada pagina não precisa ficar perfeito
+
+
+Banco
+Remover da tabelar usuarios a coluna administrador
+
+
+----------------------------------------------------------------------
+Global:
+
+bordas 5px
+arredondamento de 15px
+
+Paleta de Cores:
+
+#0F172A		fundo 
+#1E293B		fundo caixa 
+#F8FAFC		titulos
+#94A3B8		subtitulos
+#334155		borda
+#38BDF8		botões e link
+#49c8ff		botões e link clicado
+#334155		fundo caixa de texto
+#1E293B		caixa e barra lateral e superior
+#627289		textos como 'não tem uma conta?'
+
+
+fundo tags
+#3F361A
+#1C3134
+#1E3730
+#302D3F
+#3C222E
+
+letras tags
+#FFC107
+#17A2B8
+#20C997
+#9D83FF
+#E83E8C
+
+status Doc
+#22C55E
+#F59E0B
+#EF4444
+
+fundo Status Doc
+#173D34
+#413623
+#40242F
+
+
+
+
+tamanho de fontes login
+   nome projeto 64
+   titulo 48
+   letras comum 32
+   placeholder 24
+   botão entrar 36
+   link recuperação 28
+   link cadastro 24

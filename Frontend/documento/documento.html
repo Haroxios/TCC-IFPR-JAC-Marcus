@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./documento.css">
+    <title>Documento</title>
+</head>
+
+<body>
+
+    <div id="container">
+        <div id="cont_esquerdo">
+            <div id="cont_menuSuperior">
+                <h2>Revisão Web</h2>
+            </div>
+            <div id="cont_indicadores">
+                <p>verificar se vou usar isto</p>    
+            </div>
+            <div id="cont_documento">
+                <h1 id="h1_tituloDocumento">Titulo</h1>
+                <p id="p_textoDocumento">O texto em sí </p>
+            </div>
+        </div> 
+        <div id="cont_menuDireito">
+            <div id="cont_compartilhar">
+                <a href="../menu/menu.html">←</a>
+                <button id="btn_voltar">voltar</button>
+                <button id="btn_compartilhar">Compartilhar</button>
+            </div>
+            <div id="cont_edicaoTexto">
+                <p>Edição de texto como italico, negrito, cor, marcador</p>
+            </div>
+            <div id="cont_informacoesDocumento">
+                <p>tags, estado, deletar, revisão, outras infos</p>
+            </div>
+            <div id="cont_comentarios">
+                <p>ver ainda acho que vou remover, ou fazer uma area de comentários</p>
+            </div>
+        </div>
+        
+    </div>
+    
+    <dialog id="dial_compartilhamento">
+        <div id="container_dialog">
+            <input type="text" placeholder="e-mail">
+            <p>lista de quem está compartilhado o documento</p>
+            <button id="dial_btnCompartilhar">Compartilhar</button>
+            <button id="dial_btnCancelar">Cancelar</button>
+        </div>
+
+    </dialog>
+
+
+    <Script src="./documento.js"></Script>
+
+</body>
+</html>

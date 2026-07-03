@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./cadastro.css">
+    <title>Cadastro</title>
+</head>
+
+<body>
+    <div id="container">
+
+        <div id="cont_nomeProjeto">
+            <h1>Revisão Web</h1>
+        </div>
+
+        <div id="cont_pagina">
+            
+            <div id="cont_apresentacao">
+                <p id="p1">Preencha os campos para criar sua conta</p>
+            </div> 
+            
+            <div id="cont_dadosCadastro">
+                <label id="lbl_usuario">Usuário</label>
+                <input type="text" id="inp_usuario" placeholder="Nome de usuário">
+                <label id="lbl_email">E-mail</label>
+                <input type="email" id="inp_email" placeholder="exemplo@email.com">
+                <label id="lbl_senha">Senha</label>
+                <input type="password" id="inp_senha" placeholder="Digite sua senha">
+                <label id="lbl_confirmarSenha">Confirmar senha</label>
+                <input type="password" id="lbl_confirmarSenha" placeholder="Confirme a sua senha">
+            </div>
+            
+            <div id="cont_btnCadastro">
+                <button id="btn_cadastro">Cadastrar</button>
+                <a id="btn_cancelar" href="../index.html">Cancelar</a>
+            </div>
+           
+        </div>
+        
+        <div id="cont_vazio"></div>
+    </div>
+    
+    <script src="./cadastro.js"></script>
+</body>
+</html>
