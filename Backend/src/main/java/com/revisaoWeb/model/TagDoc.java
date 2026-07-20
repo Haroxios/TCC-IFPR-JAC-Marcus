@@ -14,27 +14,27 @@ public class TagDoc {
         setTag(tag);
     }
 
-    private int getId() {
+    public int getId() {
         return id;
     }
 
-    private void setId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    private Documento getDocumento() {
+    public Documento getDocumento() {
         return documento;
     }
 
-    private void setDocumento(Documento documento) {
+    public void setDocumento(Documento documento) {
         this.documento = documento;
     }
 
-    private Tag getTag() {
+    public Tag getTag() {
         return tag;
     }
 
-    private void setTag(Tag tag) {
+    public void setTag(Tag tag) {
         this.tag = tag;
     }
 

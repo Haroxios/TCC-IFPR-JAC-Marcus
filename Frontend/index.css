@@ -81,6 +81,7 @@ input, #cont_pagina {
     width: 90%;
     align-items: end;
     justify-content: start;
+    margin-top: 5px;
 }
 
 #cont_btnEntrar {

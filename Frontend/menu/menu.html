@@ -23,14 +23,14 @@
             </div>
 
             <div id="cont_documentosMenu">
-                <p>Próximas Revisões</p>
-                <a href="../documento/documento.html">Revisão</a>
-                <p>Cadernos(3x~)</p>
-                <a href="../documento/documento.html">Caderno</a>
+                <p class="topicos_menuEsquerdo">Próximas Revisões</p>
+                <a class="link_menuEsquerdo" href="../documento/documento.html">Revisão</a>
+                <p class="topicos_menuEsquerdo">Cadernos(3x~)</p>
+                <a class="link_menuEsquerdo" href="">Caderno</a>
             </div>
 
             <div id="cont_btnMenuEsquerdo">
-                <button id="btn_criar">Criar</button>
+                <button id="btn_criar">+</button>
                 <a id="btn_sair" href="../index.html">Sair</a>
             </div>
 
@@ -39,28 +39,34 @@
         <div id="cont_painel">
             <div id="cont_menuSuperior">
                 <div id="cont_filtros">
-                    <button id="btn_novaPasta">Nova Pasta</button>
-                    <button id="btn_ordenar">Ordenar</button>
-                    <button id="btn_filtrar">Filtrar</button>
+                    <button id="btn_novaPasta" class="btn_confA">Nova Pasta</button>
+                    <button id="btn_ordenar" class="btn_confA">Ordenar</button>
+                    <button id="btn_filtrar" class="btn_confA">Filtrar</button>
                 </div>
 
                 <div id="cont_pesquisa">
-                    <input type="text" id="inp_procurar" placeholer="Procurar">
-                    <button id="btn_procurar">Procurar</button>
+                    <input type="text" id="inp_procurar" placeholder="Procurar">
+                    <button id="btn_procurar" class="btn_contB">→</button>
                 </div>
             </div>
 
             <div id="cont_documentos">
                 <div id="cont_documento">
+                    <div id="cont_status">
+                        <div id="cont_statusAtual"></div>
+                    </div>
                     <div id="cont_titulo">
-                        <h1 id="TituloDoc">Titulo</h1>
-                        <div id="cont_status"></div>
+                        <h1 id="tituloDoc">Titulo</h1>
                     </div>
+                    
                     <div id="cont_trecho">
-                        <p id="TrechoDoc">Pequeno trecho do documento</p>
+                        <p id="trechoDoc">Pequeno trecho do documento</p>
                     </div>
-                    <div id="cont_tag">
-                        <p id="TagDoc">Tag</p>
+
+                    <div id="cont_tags">
+                        <div id="cont_tag">
+                            <p id="tagDoc"># Tag</p>
+                        </div>
                     </div>
                 </div>
             </div>

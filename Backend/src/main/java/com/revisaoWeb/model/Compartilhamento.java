@@ -22,43 +22,43 @@ public class Compartilhamento {
         setCaderno(caderno);
     }
 
-    private int getId() {
+    public int getId() {
         return id;
     }
 
-    private void setId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    private Usuario getUsuario() {
+    public Usuario getUsuario() {
         return usuario;
     }
 
-    private void setUsuario(Usuario usuario) {
+    public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
 
-    private Permissao getPermissao() {
+    public Permissao getPermissao() {
         return permissao;
     }
 
-    private void setPermissao(Permissao permissao) {
+    public void setPermissao(Permissao permissao) {
         this.permissao = permissao;
     }
 
-    private Documento getDocumento() {
+    public Documento getDocumento() {
         return documento;
     }
 
-    private void setDocumento(Documento documento) {
+    public void setDocumento(Documento documento) {
         this.documento = documento;
     }
 
-    private Caderno getCaderno() {
+    public Caderno getCaderno() {
         return caderno;
     }
 
-    private void setCaderno(Caderno caderno) {
+    public void setCaderno(Caderno caderno) {
         this.caderno = caderno;
     }
 

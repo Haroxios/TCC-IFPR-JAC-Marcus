@@ -1,6 +1,6 @@
 package com.revisaoWeb.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Documento {
 
@@ -25,62 +25,62 @@ public class Documento {
         setDataUltimaEdicao(dataUltimaEdicao);
         setStatusRevisao(statusRevisao);
         setProximaRevisao(proximaRevisao);
-        setCadertno(caderno);
+        setCaderno(caderno);
     }
 
-    private int getId() {
+    public int getId() {
         return id;
     }
 
-    private void setId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    private String getConteudo() {
+    public String getConteudo() {
         return conteudo;
     }
 
-    private void setConteudo(String conteudo) {
+    public void setConteudo(String conteudo) {
         this.conteudo = conteudo;
     }
 
-    private Date getDataCriacao() {
+    public Date getDataCriacao() {
         return dataCriacao;
     }
 
-    private void setDataCriacao(Date dataCriacao) {
+    public void setDataCriacao(Date dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
-    private Date getDataUltimaEdicao() {
+    public Date getDataUltimaEdicao() {
         return dataUltimaEdicao;
     }
 
-    private void setDataUltimaEdicao(Date dataUltimaEdicao) {
+    public void setDataUltimaEdicao(Date dataUltimaEdicao) {
         this.dataUltimaEdicao = dataUltimaEdicao;
     }
 
-    private Status getStatusRevisao () {
+    public Status getStatusRevisao () {
         return statusRevisao;
     }
 
-    private void setStatusRevisao (Status statusRevisao) {
+    public void setStatusRevisao (Status statusRevisao) {
         this.statusRevisao = statusRevisao;
     }
 
-    private Date getProximaRevisao() {
+    public Date getProximaRevisao() {
         return proximaRevisao;
     }
 
-    private void setProximaRevisao(Date proximaRevisao) {
+    public void setProximaRevisao(Date proximaRevisao) {
         this.proximaRevisao= proximaRevisao;
     }
 
-    private Caderno getCaderno() {
+    public Caderno getCaderno() {
         return caderno;
     }
 
-    private void setCadertno(Caderno caderno) {
+    public void setCaderno(Caderno caderno) {
         this.caderno = caderno;
     }
 

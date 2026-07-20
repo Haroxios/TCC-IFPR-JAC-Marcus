@@ -14,27 +14,27 @@ public class Caderno {
         setUsuario(usuario);
     }
 
-    private int getId() {
+    public int getId() {
         return id;
     }
 
-    private void setId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    private String getNome() {
+    public String getNome() {
         return nome;
     }
 
-    private void setNome(String nome) {
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
-    private Usuario getUsuario() {
+    public Usuario getUsuario() {
         return usuario;
     }
 
-    private void setUsuario(Usuario usuario) {
+    public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
 

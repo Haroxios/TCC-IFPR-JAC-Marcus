@@ -12,19 +12,19 @@ public class Tag {
         setTag(tag);
     }
 
-    private int getId() {
+    public int getId() {
         return id;
     }
 
-    private void setId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    private String getTag() {
+    public String getTag() {
         return tag;
     }
 
-    private void setTag(String tag) {
+    public void setTag(String tag) {
         this.tag = tag;
     }
 

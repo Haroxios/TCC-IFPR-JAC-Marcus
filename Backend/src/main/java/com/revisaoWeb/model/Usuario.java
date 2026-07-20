@@ -16,35 +16,35 @@ public class Usuario {
         setSenha(senha);
     }
 
-    private int getId() {
+    public int getId() {
         return id;
     }
 
-    private void setId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    private String getNome() {
+    public String getNome() {
         return nome;
     }
 
-    private void setNome(String nome) {
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
-    private String getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    private void setEmail(String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    private String getSenha() {
+    public String getSenha() {
         return senha;
     }
 
-    private void setSenha(String senha) {
+    public void setSenha(String senha) {
         this.senha = senha;
     }
 
