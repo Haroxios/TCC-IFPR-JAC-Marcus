@@ -1,7 +1,7 @@
 package com.revisaoWeb.controller;
 
 import com.revisaoWeb.model.Tag;
-import com.revisaoWeb.dao.TagDao;
+import com.revisaoWeb.service.TagService;
 
 import java.util.List;
 
@@ -16,37 +16,37 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
 @RestController
-@RequestMapping ("/tag")
+@RequestMapping ("/api/tag")
 public class TagController {
 
     @Autowired
-    private TagDao tagDao;
+    private TagService tagService;
 
     @PostMapping
     public String criar(@RequestBody Tag tag) {
-        tagDao.criar(tag);
+        tagService.criar(tag);
         return "Tag criada API.";
     }
 
     @GetMapping
     public List<Tag> listar() {
-        return tagDao.listar();
+        return tagService.listar();
     }
 
     @GetMapping ("/{id}")
     public Tag listarId(@PathVariable("id") int id) {
-        return tagDao.listarId(id);
+        return tagService.listarId(id);
     }
 
     @PutMapping
     public String atualizar(@RequestBody Tag tag) {
-        tagDao.atualizar(tag);
+        tagService.atualizar(tag);
         return "Tag atualizarda API.";
     }
 
     @DeleteMapping ("/{id}")
     public String deletar(@PathVariable("id") int id) {
-        tagDao.deletar(id);
+        tagService.deletar(id);
         return "Tag deletada API.";
     }
 }

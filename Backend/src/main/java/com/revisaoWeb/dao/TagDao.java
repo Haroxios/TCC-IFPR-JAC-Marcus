@@ -93,7 +93,7 @@ public class TagDao {
             ps.setInt(2, tag.getId());
 
             ps.executeUpdate();
-            System.out.println("Tag atualizada");
+            System.out.println("Tag atualizada.");
         }
         catch (SQLException e) {
             throw new RuntimeException("Erro ao atualizar tag: " +e.getMessage());
@@ -108,7 +108,7 @@ public class TagDao {
 
             ps.setInt(1, id);
             ps.executeUpdate();
-            System.out.println("Tag deletada");
+            System.out.println("Tag deletada.");
         }
         catch (SQLException e) {
             throw new RuntimeException("Erro ao deletar Tag: " +e.getMessage());

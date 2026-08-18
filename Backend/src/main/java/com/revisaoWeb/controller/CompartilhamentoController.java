@@ -1,6 +1,6 @@
 package com.revisaoWeb.controller;
 
-import com.revisaoWeb.dao.CompartilhamentoDao;
+import com.revisaoWeb.service.CompartilhamentoService;
 import com.revisaoWeb.model.Compartilhamento;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,38 +16,38 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 @RestController
-@RequestMapping ("/compartilhamento")
+@RequestMapping ("/api/compartilhamento")
 public class CompartilhamentoController {
 
     @Autowired
-    private CompartilhamentoDao compDao;
+    private CompartilhamentoService compartilhamentoService;
 
     @PostMapping
     public String criar(@RequestBody Compartilhamento comp) {
-        compDao.criar(comp);
+        compartilhamentoService.criar(comp);
         return "Compartilhamento criado API.";
     }
 
     @GetMapping
     public List<Compartilhamento> listar() {
-        return compDao.listar();
+        return compartilhamentoService.listar();
     }
 
     @GetMapping("/{id}")
     Compartilhamento listarId(@PathVariable("id") int id) {
-        return compDao.listarId(id);
+        return compartilhamentoService.listarId(id);
     }
 
     @PutMapping
     public String atualizar(@RequestBody Compartilhamento comp) {
-        compDao.atualizar(comp);
-        return "Compartilhamento atualizado API";
+        compartilhamentoService.atualizar(comp);
+        return "Compartilhamento atualizado API.";
     }
 
     @DeleteMapping ("/{id}")
     public String deletar(@PathVariable("id") int id) {
-        compDao.deletar(id);
-        return "Compartilhamento deletado API";
+        compartilhamentoService.deletar(id);
+        return "Compartilhamento deletado API.";
     }
 
 }

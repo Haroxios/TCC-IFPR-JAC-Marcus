@@ -1,6 +1,6 @@
 package com.revisaoWeb.controller;
 
-import com.revisaoWeb.dao.CadernoDao;
+import com.revisaoWeb.service.CadernoService;
 import com.revisaoWeb.model.Caderno;
 
 import java.util.List;
@@ -16,37 +16,37 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
-@RequestMapping("/caderno")
+@RequestMapping("/api/caderno")
 public class CadernoController {
 
     @Autowired
-    private CadernoDao cadernoDao;
+    private CadernoService cadernoService;
 
     @PostMapping
     public String criar(@RequestBody Caderno caderno) {
-        cadernoDao.criar(caderno);
-        return "Caderno cadastrado API";
+        cadernoService.criar(caderno);
+        return "Caderno cadastrado API.";
     }
 
     @GetMapping
     public List<Caderno> listar() {
-        return cadernoDao.listar();
+        return cadernoService.listar();
     }
 
     @GetMapping ("/{id}")
     public Caderno listarId(@PathVariable("id") int id) {
-        return cadernoDao.listarId(id);
+        return cadernoService.listarId(id);
     }
 
     @PutMapping
     public String atualizar(@RequestBody Caderno caderno) {
-        cadernoDao.atualizar(caderno);
-        return "Caderno atualizado API";
+        cadernoService.atualizar(caderno);
+        return "Caderno atualizado API.";
     }
 
     @DeleteMapping ("/{id}")
     public String deletar(@PathVariable("id") int id) {
-        cadernoDao.deletar(id);
-        return "Caderno deletado API";
+        cadernoService.deletar(id);
+        return "Caderno deletado API.";
     }
 }

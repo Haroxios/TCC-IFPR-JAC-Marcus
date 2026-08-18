@@ -2,7 +2,7 @@ package com.revisaoWeb.controller;
 
 import java.util.List;
 
-import com.revisaoWeb.dao.DocumentoDao;
+import com.revisaoWeb.service.DocumentoService;
 import com.revisaoWeb.model.Documento;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,37 +16,37 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
-@RequestMapping ("/documento")
+@RequestMapping ("/api/documento")
 public class DocumentoController {
 
     @Autowired
-    private DocumentoDao documentoDao;
+    private DocumentoService documentoService;
 
     @PostMapping
     public String criar(@RequestBody Documento documento) {
-        documentoDao.criar(documento);
-        return "Documento criado API";
+        documentoService.criar(documento);
+        return "Documento criado API.";
     }
 
     @GetMapping
     public List<Documento> listar() {
-        return documentoDao.listar();
+        return documentoService.listar();
     }
 
     @GetMapping("/{id}")
     public Documento listarId(@PathVariable("id") int id) {
-        return documentoDao.listarId(id);
+        return documentoService.listarId(id);
     }
 
     @PutMapping
     public String atualizar(@RequestBody Documento documento) {
-        documentoDao.atualizar(documento);
-        return "Documento atualizado";
+        documentoService.atualizar(documento);
+        return "Documento atualizado.";
     }
 
     @DeleteMapping ("/{id}")
     public String deletar(@PathVariable("id") int id) {
-        documentoDao.deletar(id);
-        return "Documento deletado API";
+        documentoService.deletar(id);
+        return "Documento deletado API.";
     }
 }

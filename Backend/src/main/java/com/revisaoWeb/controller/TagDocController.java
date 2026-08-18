@@ -1,6 +1,6 @@
 package com.revisaoWeb.controller;
 
-import com.revisaoWeb.dao.TagDocDao;
+import com.revisaoWeb.service.TagDocService;
 import com.revisaoWeb.model.TagDoc;
 
 import java.util.List;
@@ -16,37 +16,37 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
-@RequestMapping ("/{tagDoc}")
+@RequestMapping ("/api/tagDoc")
 public class TagDocController {
 
     @Autowired
-    private TagDocDao tdd;
+    private TagDocService tagDocService;
 
     @PostMapping
     public String criar(@RequestBody TagDoc td) {
-        tdd.criar(td);
+        tagDocService.criar(td);
         return "TagDoc criada API.";
     }
 
     @GetMapping
     public List<TagDoc> listar() {
-        return tdd.listar();
+        return tagDocService.listar();
     }
 
     @GetMapping ("/{id}")
     public TagDoc listarId(@PathVariable("id") int id) {
-        return tdd.listarId(id);
+        return tagDocService.listarId(id);
     }
 
     @PutMapping
     public String atualizar(@RequestBody TagDoc td) {
-        tdd.atualizar(td);
+        tagDocService.atualizar(td);
         return "TagDoc atualizado API.";
     }
 
     @DeleteMapping ("/{id}")
     public String deletar(@PathVariable("id") int id) {
-        tdd.deletar(id);
+        tagDocService.deletar(id);
         return "TagDoc deletado API.";
     }
 }

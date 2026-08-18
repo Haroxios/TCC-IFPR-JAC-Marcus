@@ -68,7 +68,7 @@ public class DocumentoDao {
             throw new RuntimeException("Erro ao listar documentos: " +e.getMessage());
         }
 
-        System.out.println("documento listado");
+        System.out.println("Documento listado.");
         return listaDocumentos;
     }
 
@@ -121,7 +121,7 @@ public class DocumentoDao {
             ps.setInt(7, documento.getCaderno().getId());
 
             ps.executeUpdate();
-            System.out.println("Documento atualizado");
+            System.out.println("Documento atualizado.");
         }
         catch (SQLException e) {
             throw new RuntimeException("Erro ao atualizar documento: " +e.getMessage());
@@ -136,7 +136,7 @@ public class DocumentoDao {
 
             ps.setInt(1, id);
             ps.executeUpdate();
-            System.out.println("Documento deletado");
+            System.out.println("Documento deletado.");
         }
         catch (SQLException e) {
             throw new RuntimeException("Erro ao deletar documento: " +e.getMessage());

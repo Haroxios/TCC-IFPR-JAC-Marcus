@@ -1,7 +1,10 @@
 package com.revisaoWeb.controller;
 
 import com.revisaoWeb.model.Usuario;
-import com.revisaoWeb.dao.UsuarioDao;
+import com.revisaoWeb.service.UsuarioService;
+import com.revisaoWeb.dto.LoginDto;
+import com.revisaoWeb.dto.UsuarioReqDto;
+import com.revisaoWeb.dto.EmailReqDto;
 
 import java.util.List;
 
@@ -16,37 +19,50 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
-@RequestMapping("/usuario")
+@RequestMapping("/api/usuario")
 public class UsuarioController {
 
     @Autowired
-    private UsuarioDao usuarioDao;
+    private UsuarioService usuarioService;
 
     @PostMapping
     public String criar(@RequestBody Usuario usuario) {
-        usuarioDao.criar(usuario);
-        return "Usuario criardo API";
+        usuarioService.criar(usuario);
+        return "Usuario criado API.";
     }
 
     @GetMapping
     public List<Usuario> listar() {
-        return usuarioDao.listar();
+        return usuarioService.listar();
     }
 
     @GetMapping ("/{id}")
     public Usuario listarId(@PathVariable("id") int id) {
-        return usuarioDao.listarId(id);
+        return usuarioService.listarId(id);
     }
 
-    @PutMapping
-    public String atualizar(@RequestBody Usuario usuario) {
-        usuarioDao.atualizar(usuario);
-        return "Usuario atualizado API";
+    @PutMapping ("/{id}")
+    public String atualizar(@PathVariable("id") int id, @RequestBody Usuario usuario) {
+        usuarioService.atualizar(id, usuario);
+        return "Usuario atualizado API.";
     }
 
     @DeleteMapping ("/{id}")
     public String deletar(@PathVariable("id") int id) {
-        usuarioDao.deletar(id);
-        return "usuario deletado API";
+        usuarioService.deletar(id);
+        return "usuario deletado API.";
+    }
+
+    @PostMapping ("/login")
+    public UsuarioReqDto login(@RequestBody LoginDto loginDto) {
+        String email = loginDto.getEmail();
+        String senha = loginDto.getSenha();
+        return usuarioService.logar(email, senha);
+    }
+
+    @PostMapping ("/verificarEmail")
+    public boolean verificarEmail(@RequestBody EmailReqDto emailReqDto) {
+        String email = emailReqDto.getEmail();
+        return usuarioService.verificarEmail(email);
     }
 }

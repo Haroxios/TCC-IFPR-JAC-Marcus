@@ -106,7 +106,7 @@ public class CadernoDao {
             ps.setInt(3, caderno.getId());
 
             ps.executeUpdate();
-            System.out.println("Caderno atualizado");
+            System.out.println("Caderno atualizado.");
         }
 
         catch (SQLException e) {
@@ -123,7 +123,7 @@ public class CadernoDao {
 
             ps.setInt(1, id);
             ps.executeUpdate();
-            System.out.println("Caderno deletado");
+            System.out.println("Caderno deletado.");
         }
 
         catch (SQLException e) {

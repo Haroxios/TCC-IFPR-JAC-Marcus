@@ -7,7 +7,15 @@ function init() {
 
 
 
+
+
 function menuEsquerdo() {
+
+    //puxar no banco o nome do usuario ou trazer na hora do login
+    document.getElementById('h1_usuario').innerHTML = 'PuxarNoBanco'
+        
+    listaRevisões()
+    listaCaderno()
     botoesE()
 }
 
@@ -19,6 +27,26 @@ function menuSuperior() {
 function documento() {
 
 }
+
+
+
+
+
+function listaRevisões() {
+    // com a lista de revisão ordenar em prioridade
+    // depois remover o que não precisa ser revisado
+    // rederizar
+
+}
+
+function listaCaderno() {
+
+    // quase mesma coisa do revisar
+    // mas definir quantidade a ser mostrado e
+    // se vai ter outra pagina apenas para mostara os caderno
+
+}
+
 
 
 function botoesE() {
@@ -41,14 +69,19 @@ function botoesS() {
     
 }
 
+
+
 function pesquisa() {
     const inpProcurar = document.getElementById('inp_procurar')
     const btnProcurar = document.getElementById('btn_procurar')
 
     btnProcurar.addEventListener('click', () => {
+        
 
     })
 }
+
+
 
 
 

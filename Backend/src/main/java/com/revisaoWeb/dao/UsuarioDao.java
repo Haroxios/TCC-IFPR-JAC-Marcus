@@ -27,7 +27,7 @@ public class UsuarioDao {
             ps.setString(3, usuario.getSenha());
 
             ps.executeUpdate();
-            System.out.println("Usuario cadastrato");
+            System.out.println("Usuario cadastrato.");
 
         }
         catch (SQLException e) {
@@ -91,7 +91,7 @@ public class UsuarioDao {
         return usr;
     }
 
-    public void atualizar(Usuario usuario) {
+    public void atualizar(int id, Usuario usuario) {
         String sql = "UPDATE usuarios SET nome = ?, email = ?, senha = ? WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -100,11 +100,11 @@ public class UsuarioDao {
             ps.setString(1, usuario.getNome());
             ps.setString(2, usuario.getEmail());
             ps.setString(3, usuario.getSenha());
-            ps.setInt(4, usuario.getId());
+            ps.setInt(4, id);
 
             ps.executeUpdate();
 
-            System.out.println("Usuario atualizado");
+            System.out.println("Usuario atualizado.");
         }
         catch (SQLException e) {
             throw new RuntimeException("Erro ao atualizar o usuario: " +e.getMessage());
@@ -119,10 +119,58 @@ public class UsuarioDao {
 
             ps.setInt(1, id);
             ps.executeUpdate();
-            System.out.println("Usuario deletado");
+            System.out.println("Usuario deletado.");
         }
         catch (SQLException e) {
             throw new RuntimeException("Erro ao deletar usuario: " +e.getMessage());
         }
+    }
+
+    public Usuario logar(String email) {
+        String sql = "SELECT * FROM usuarios WHERE email = ?";
+        Usuario usr;
+
+        try (Connection conn = DatabaseConnection.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                usr = new Usuario();
+
+                usr.setId(rs.getInt("id"));
+                usr.setEmail(rs.getString("email"));
+                usr.setNome(rs.getString("nome"));
+                usr.setSenha(rs.getString("senha"));
+            }
+            else {
+                usr = null;
+            }
+        }
+        catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar usuario: " +e.getMessage());
+        }
+
+        return usr;
+    }
+
+    public boolean verificarEmail(String email) {
+        String sql = "SELECT 1 FROM usuarios WHERE email = ?";
+        boolean existe = false;
+
+        try (Connection conn = DatabaseConnection.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+
+            existe = rs.next();
+        }
+        catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar usuario: " +e.getMessage());
+        }
+
+        return existe;
     }
 }
