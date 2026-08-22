@@ -138,11 +138,11 @@ function logar() {
     const inpEmail = document.getElementById('inp_email')
     const inpSenha = document.getElementById('inp_senha')
 
-    btnLogin.addEventListener('click', () => {
-        const login = verificarUsuario(inpEmail.value, inpSenha.value)
+    btnLogin.addEventListener('click', async () => {
+        const login = await verificarUsuario(inpEmail.value, inpSenha.value)
 
-        if (login != null) {
-            //window.location.href = './menu/menu.html'
+        if (login.id != null) {
+            window.location.href = `./menu/menu.html?id=${login.id}`
         }
     })
 }
@@ -153,7 +153,6 @@ async function verificarUsuario(email, senha) {
         email: email,
         senha: senha
     }
-    console.log(email, senha, usr)
 
     try {
         const res = await fetch(url, {
@@ -166,12 +165,13 @@ async function verificarUsuario(email, senha) {
             throw new Error(`Erro HTTP: ${res.status}`)
         }
 
-        const texto = await res.text()
-        console.log(texto)
+        const texto = JSON.parse(await res.text())
+        return texto
     }
     catch (e) {
         console.log('Erro: ', e.message)
     }
+
 }
 
 init()

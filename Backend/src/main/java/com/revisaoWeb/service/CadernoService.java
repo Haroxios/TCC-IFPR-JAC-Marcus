@@ -28,8 +28,8 @@ public class CadernoService {
         return cadernoDao.listarId(id);
     }
 
-    public void atualizar(Caderno caderno) {
-        cadernoDao.atualizar(caderno);
+    public void atualizar(int id, Caderno caderno) {
+        cadernoDao.atualizar(id, caderno);
     }
 
     public void deletar(int id) {

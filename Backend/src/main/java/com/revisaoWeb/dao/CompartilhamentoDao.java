@@ -6,7 +6,6 @@ import com.revisaoWeb.model.Compartilhamento;
 import com.revisaoWeb.config.DatabaseConnection;
 import com.revisaoWeb.model.Usuario;
 import com.revisaoWeb.model.Documento;
-import com.revisaoWeb.model.Caderno;
 import com.revisaoWeb.model.Permissao;
 
 import java.sql.Connection;
@@ -21,7 +20,7 @@ import java.util.ArrayList;
 public class CompartilhamentoDao {
 
     public void criar(Compartilhamento comp) {
-        String sql = "INSERT INTO compartilhamentos (permissao, idUsuario, idDocumento, idCaderno) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO compartilhamentos (permissao, idUsuario, idDocumento) VALUES (?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
         PreparedStatement ps = conn.prepareStatement(sql);) {
@@ -29,7 +28,6 @@ public class CompartilhamentoDao {
             ps.setString(1, comp.getPermissao().name());
             ps.setInt(2, comp.getUsuario().getId());
             ps.setInt(3, comp.getDocumento().getId());
-            ps.setInt(4, comp.getCaderno().getId());
 
             ps.executeUpdate();
             System.out.println("Compartilhamento criado.");
@@ -52,17 +50,14 @@ public class CompartilhamentoDao {
                 Compartilhamento comp = new Compartilhamento();
                 Usuario usuario = new Usuario();
                 Documento documento = new Documento();
-                Caderno caderno = new Caderno();
 
                 usuario.setId(rs.getInt("idUsuario"));
                 documento.setId(rs.getInt("idDocumento"));
-                caderno.setId(rs.getInt("idCaderno"));
 
                 comp.setId(rs.getInt("id"));
                 comp.setPermissao(Permissao.valueOf(rs.getString("permissao")));
                 comp.setUsuario(usuario);
                 comp.setDocumento(documento);
-                comp.setCaderno(caderno);
 
                 listaComp.add(comp);
             }
@@ -89,17 +84,14 @@ public class CompartilhamentoDao {
                 comp = new Compartilhamento();
                 Usuario usr = new Usuario();
                 Documento doc = new Documento();
-                Caderno cad = new Caderno();
 
                 usr.setId(rs.getInt("idUsuario"));
                 doc.setId(rs.getInt("idDocumento"));
-                cad.setId(rs.getInt("idCaderno"));
 
                 comp.setId(rs.getInt("id"));
                 comp.setPermissao(Permissao.valueOf(rs.getString("permissao")));
                 comp.setUsuario(usr);
                 comp.setDocumento(doc);
-                comp.setCaderno(cad);
             }
             else {
                 comp = null;
@@ -112,8 +104,8 @@ public class CompartilhamentoDao {
         return comp;
     }
 
-    public void atualizar(Compartilhamento comp) {
-        String sql = "UPDATE compartilhamentos SET permissao = ?, idUsuario = ?, idDocumento = ?, idCaderno = ? WHERE id = ?";
+    public void atualizar(int id, Compartilhamento comp) {
+        String sql = "UPDATE compartilhamentos SET permissao = ?, idUsuario = ?, idDocumento = ? WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
         PreparedStatement ps = conn.prepareStatement(sql);) {
@@ -121,8 +113,7 @@ public class CompartilhamentoDao {
             ps.setString(1, comp.getPermissao().name());
             ps.setInt(2, comp.getUsuario().getId());
             ps.setInt(3, comp.getDocumento().getId());
-            ps.setInt(4, comp.getCaderno().getId());
-            ps.setInt(5, comp.getId());
+            ps.setInt(4, id);
 
             ps.executeUpdate();
             System.out.println("Documento atualizado.");

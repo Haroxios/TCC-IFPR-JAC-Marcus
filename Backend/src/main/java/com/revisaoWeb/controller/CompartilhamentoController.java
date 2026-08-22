@@ -38,9 +38,9 @@ public class CompartilhamentoController {
         return compartilhamentoService.listarId(id);
     }
 
-    @PutMapping
-    public String atualizar(@RequestBody Compartilhamento comp) {
-        compartilhamentoService.atualizar(comp);
+    @PutMapping("/{id}")
+    public String atualizar(@PathVariable("id") int id, @RequestBody Compartilhamento comp) {
+        compartilhamentoService.atualizar(id, comp);
         return "Compartilhamento atualizado API.";
     }
 

@@ -28,8 +28,8 @@ public class CompartilhamentoService {
         return compartilhamentoDao.listarId(id);
     }
 
-    public void atualizar(Compartilhamento compartilhamento) {
-        compartilhamentoDao.atualizar(compartilhamento);
+    public void atualizar(int id, Compartilhamento compartilhamento) {
+        compartilhamentoDao.atualizar(id, compartilhamento);
     }
 
     public void deletar(int id) {

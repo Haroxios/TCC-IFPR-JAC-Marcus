@@ -99,7 +99,7 @@ public class TagDocDao {
         return tagDoc;
     }
 
-    public void atualizar(TagDoc td) {
+    public void atualizar(int id, TagDoc td) {
         String sql = "UPDATE tag_doc SET idDocumento = ?, idTag = ? WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -107,7 +107,7 @@ public class TagDocDao {
 
             ps.setInt(1, td.getDocumento().getId());
             ps.setInt(2, td.getTag().getId());
-            ps.setInt(3, td.getId());
+            ps.setInt(3, id);
 
             ps.executeUpdate();
             System.out.println("TagDoc atualizado.");

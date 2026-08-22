@@ -27,8 +27,8 @@ public class DocumentoService {
         return documentoDao.listarId(id);
     }
 
-    public void atualizar(Documento documento) {
-        documentoDao.atualizar(documento);
+    public void atualizar(int id, Documento documento) {
+        documentoDao.atualizar(id, documento);
     }
 
     public void deletar(int id) {

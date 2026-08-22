@@ -5,21 +5,19 @@ public class Compartilhamento {
     private int id;
     private Usuario usuario;
     private Permissao permissao;
-    private Documento documento;    //pode ser null
-    private Caderno caderno;        //pode ser null
+    private Documento documento;
 
     public Compartilhamento() {}
 
     public Compartilhamento(int id, Usuario usuario, Permissao permissao) {
-        this(id, usuario, permissao, null, null);
+        this(id, usuario, permissao, null);
     }
 
-    public Compartilhamento(int id, Usuario usuario, Permissao permissao, Documento documento, Caderno caderno) {
+    public Compartilhamento(int id, Usuario usuario, Permissao permissao, Documento documento) {
         setId(id);
         setUsuario(usuario);
         setPermissao(permissao);
         setDocumento(documento);
-        setCaderno(caderno);
     }
 
     public int getId() {
@@ -54,16 +52,8 @@ public class Compartilhamento {
         this.documento = documento;
     }
 
-    public Caderno getCaderno() {
-        return caderno;
-    }
-
-    public void setCaderno(Caderno caderno) {
-        this.caderno = caderno;
-    }
-
     @Override
     public String toString() {
-        return "Compartilhmento: " +getId() +"\n" +getUsuario() +"\n" +getPermissao() +"\n" +getDocumento() +"\n" +getCaderno();
+        return "Compartilhmento: " +getId() +"\n" +getPermissao() +"\n" +getUsuario() +"\n" +getDocumento();
     }
 }

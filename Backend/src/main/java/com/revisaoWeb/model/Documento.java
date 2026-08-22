@@ -5,6 +5,7 @@ import java.sql.Date;
 public class Documento {
 
     private int id;
+    private String titulo;
     private String conteudo;
     private Date dataCriacao;
     private Date dataUltimaEdicao;
@@ -15,11 +16,12 @@ public class Documento {
     public Documento() {}
 
     public Documento(int id, Date dataCriacao, Date dataUltimaEdicao, Date proximaRevisao, Caderno caderno) {
-        this(id, null, dataCriacao, dataUltimaEdicao, null, proximaRevisao, caderno);
+        this(id, null, null, dataCriacao, dataUltimaEdicao, null, proximaRevisao, caderno);
     }
 
-    public Documento(int id, String conteudo, Date dataCriacao, Date dataUltimaEdicao, Status statusRevisao, Date proximaRevisao, Caderno caderno) {
+    public Documento(int id, String titulo, String conteudo, Date dataCriacao, Date dataUltimaEdicao, Status statusRevisao, Date proximaRevisao, Caderno caderno) {
         setId(id);
+        setTitulo(titulo);
         setConteudo(conteudo);
         setDataCriacao(dataCriacao);
         setDataUltimaEdicao(dataUltimaEdicao);
@@ -34,6 +36,14 @@ public class Documento {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
     public String getConteudo() {
@@ -86,6 +96,6 @@ public class Documento {
 
     @Override
     public String toString() {
-        return "Documento: " +getId() +"\n" +getConteudo() +"\n" +getDataCriacao() +"\n" +getDataUltimaEdicao() +"\n" +getStatusRevisao() +"\n" +getProximaRevisao() +"\n" +getCaderno();
+        return "Documento: " +getId() +"\n" +getTitulo() +"\n" +getConteudo() +"\n" +getDataCriacao() +"\n" +getDataUltimaEdicao() +"\n" +getStatusRevisao() +"\n" +getProximaRevisao() +"\n" +getCaderno();
     }
 }

@@ -38,9 +38,9 @@ public class TagDocController {
         return tagDocService.listarId(id);
     }
 
-    @PutMapping
-    public String atualizar(@RequestBody TagDoc td) {
-        tagDocService.atualizar(td);
+    @PutMapping("/{id}")
+    public String atualizar(@PathVariable("id") int id, @RequestBody TagDoc td) {
+        tagDocService.atualizar(id, td);
         return "TagDoc atualizado API.";
     }
 

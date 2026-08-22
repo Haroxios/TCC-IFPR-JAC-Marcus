@@ -1,9 +1,40 @@
 function init() {
+
+    const params = new URLSearchParams(window.location.search)
+    const id = params.get('id')
+
     menuEsquerdo()
     menuSuperior()
 
     documento()
+
+    buscarUsuario(id)
+    //buscarDocumento()
+    //buscarCaderno()
 }
+
+async function buscarUsuario(id) {
+
+    url = `http://localhost:8080/api/usuario/${id}`
+
+    try {
+        const req = await fetch(url)
+
+        if (!req.ok) {
+            throw new Error(`Erro HTTP: ${res.status}`)
+        }
+
+        const cadernos = JSON.parse(await req.text())
+        console.log(cadernos)
+
+    }
+    catch (e) {
+        console.log('Erro: ', e.message)
+    }
+
+}
+
+function buscarDocumento() {}
 
 
 

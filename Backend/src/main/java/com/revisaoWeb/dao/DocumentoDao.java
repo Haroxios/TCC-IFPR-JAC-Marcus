@@ -19,17 +19,18 @@ import org.springframework.stereotype.Repository;
 public class DocumentoDao {
 
     public void criar(Documento documento) {
-        String sql = "INSERT INTO documentos (conteudo, dataCriacao, dataUltimaEdicao, statusRevisao, proximaRevisao, idCaderno) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO documentos (titulo, conteudo, dataCriacao, dataUltimaEdicao, statusRevisao, proximaRevisao, idCaderno) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
         PreparedStatement ps = conn.prepareStatement(sql);) {
 
-            ps.setString(1, documento.getConteudo());
-            ps.setDate(2, documento.getDataCriacao());
-            ps.setDate(3, documento.getDataUltimaEdicao());
-            ps.setString(4, documento.getStatusRevisao().name()); //.name() puxa em string a informação
-            ps.setDate(5, documento.getProximaRevisao());
-            ps.setInt(6, documento.getCaderno().getId());
+            ps.setString(1, documento.getTitulo());
+            ps.setString(2, documento.getConteudo());
+            ps.setDate(3, documento.getDataCriacao());
+            ps.setDate(4, documento.getDataUltimaEdicao());
+            ps.setString(5, documento.getStatusRevisao().name()); //.name() puxa em string a informação
+            ps.setDate(6, documento.getProximaRevisao());
+            ps.setInt(7, documento.getCaderno().getId());
 
             ps.executeUpdate();
             System.out.println("Documento criado.");
@@ -53,6 +54,7 @@ public class DocumentoDao {
 
                 caderno.setId(rs.getInt("idCaderno"));
 
+                documento.setTitulo(rs.getString("titulo"));
                 documento.setId(rs.getInt("id"));
                 documento.setConteudo(rs.getString("conteudo"));
                 documento.setDataCriacao(rs.getDate("dataCriacao"));
@@ -87,6 +89,7 @@ public class DocumentoDao {
 
                 cad.setId(rs.getInt("idCaderno"));
 
+                doc.setTitulo(rs.getString("titulo"));
                 doc.setId(rs.getInt("id"));
                 doc.setConteudo(rs.getString("conteudo"));
                 doc.setDataCriacao(rs.getDate("dataCriacao"));
@@ -106,19 +109,20 @@ public class DocumentoDao {
         return doc;
     }
 
-    public void atualizar(Documento documento) {
-        String sql = "UPDATE documentos SET conteudo = ?, dataCriacao = ?, dataUltimaEdicao = ?, statusRevisao = ?, proximaRevisao = ?, idCaderno = ? WHERE id = ?";
+    public void atualizar(int id, Documento documento) {
+        String sql = "UPDATE documentos SET titulo = ?, conteudo = ?, dataCriacao = ?, dataUltimaEdicao = ?, statusRevisao = ?, proximaRevisao = ?, idCaderno = ? WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
         PreparedStatement ps = conn.prepareStatement(sql);) {
 
-            ps.setString(1, documento.getConteudo());
-            ps.setDate(2, documento.getDataCriacao());
-            ps.setDate(3, documento.getDataUltimaEdicao());
-            ps.setString(4, documento.getStatusRevisao().name());
-            ps.setDate(5, documento.getProximaRevisao());
-            ps.setInt(6, documento.getCaderno().getId());
+            ps.setString(1, documento.getTitulo());
+            ps.setString(2, documento.getConteudo());
+            ps.setDate(3, documento.getDataCriacao());
+            ps.setDate(4, documento.getDataUltimaEdicao());
+            ps.setString(5, documento.getStatusRevisao().name());
+            ps.setDate(6, documento.getProximaRevisao());
             ps.setInt(7, documento.getCaderno().getId());
+            ps.setInt(8, id);
 
             ps.executeUpdate();
             System.out.println("Documento atualizado.");

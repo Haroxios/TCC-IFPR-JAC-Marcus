@@ -33,14 +33,14 @@ public class TagController {
         return tagService.listar();
     }
 
-    @GetMapping ("/{id}")
+    @GetMapping("/{id}")
     public Tag listarId(@PathVariable("id") int id) {
         return tagService.listarId(id);
     }
 
-    @PutMapping
-    public String atualizar(@RequestBody Tag tag) {
-        tagService.atualizar(tag);
+    @PutMapping("/{id}")
+    public String atualizar(@PathVariable("id") int id, @RequestBody Tag tag) {
+        tagService.atualizar(id, tag);
         return "Tag atualizarda API.";
     }
 

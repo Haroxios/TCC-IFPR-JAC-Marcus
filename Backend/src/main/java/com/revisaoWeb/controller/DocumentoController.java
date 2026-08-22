@@ -38,9 +38,9 @@ public class DocumentoController {
         return documentoService.listarId(id);
     }
 
-    @PutMapping
-    public String atualizar(@RequestBody Documento documento) {
-        documentoService.atualizar(documento);
+    @PutMapping("/{id}")
+    public String atualizar(@PathVariable("id") int id, @RequestBody Documento documento) {
+        documentoService.atualizar(id, documento);
         return "Documento atualizado.";
     }
 

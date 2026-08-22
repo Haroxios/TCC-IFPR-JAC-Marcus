@@ -27,8 +27,8 @@ public class TagService {
         return tagDao.listarId(id);
     }
 
-    public void atualizar(Tag tag) {
-        tagDao.atualizar(tag);
+    public void atualizar(int id, Tag tag) {
+        tagDao.atualizar(id, tag);
     }
 
     public void deletar(int id) {

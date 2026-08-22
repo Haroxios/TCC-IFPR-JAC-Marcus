@@ -33,14 +33,14 @@ public class CadernoController {
         return cadernoService.listar();
     }
 
-    @GetMapping ("/{id}")
+    @GetMapping("/{id}")
     public Caderno listarId(@PathVariable("id") int id) {
         return cadernoService.listarId(id);
     }
 
-    @PutMapping
-    public String atualizar(@RequestBody Caderno caderno) {
-        cadernoService.atualizar(caderno);
+    @PutMapping("/{id}")
+    public String atualizar(@PathVariable("id") int id, @RequestBody Caderno caderno) {
+        cadernoService.atualizar(id, caderno);
         return "Caderno atualizado API.";
     }
 

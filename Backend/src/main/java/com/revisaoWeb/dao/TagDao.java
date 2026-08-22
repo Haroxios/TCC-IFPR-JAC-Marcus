@@ -83,14 +83,14 @@ public class TagDao {
         return tag;
     }
 
-    public void atualizar(Tag tag) {
+    public void atualizar(int id, Tag tag) {
         String sql = "UPDATE tags SET tag = ? WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
         PreparedStatement ps = conn.prepareStatement(sql);) {
 
             ps.setString(1, tag.getTag());
-            ps.setInt(2, tag.getId());
+            ps.setInt(2, id);
 
             ps.executeUpdate();
             System.out.println("Tag atualizada.");

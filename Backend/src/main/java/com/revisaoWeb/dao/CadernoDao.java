@@ -95,7 +95,7 @@ public class CadernoDao {
         return caderno;
     }
 
-    public void atualizar (Caderno caderno) {
+    public void atualizar (int id, Caderno caderno) {
         String sql = "UPDATE cadernos SET nome = ?, idUsuario = ? WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -103,7 +103,7 @@ public class CadernoDao {
 
             ps.setString(1, caderno.getNome());
             ps.setInt(2, caderno.getUsuario().getId());
-            ps.setInt(3, caderno.getId());
+            ps.setInt(3, id);
 
             ps.executeUpdate();
             System.out.println("Caderno atualizado.");

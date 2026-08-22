@@ -28,8 +28,8 @@ public class TagDocService {
         return tagDocDao.listarId(id);
     }
 
-    public void atualizar(TagDoc tagDoc) {
-        tagDocDao.atualizar(tagDoc);
+    public void atualizar(int id, TagDoc tagDoc) {
+        tagDocDao.atualizar(id, tagDoc);
     }
 
     public void deletar(int id) {
