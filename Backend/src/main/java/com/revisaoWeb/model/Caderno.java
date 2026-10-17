@@ -2,32 +2,32 @@ package com.revisaoWeb.model;
 
 public class Caderno {
 
-    private int id;
-    private String nome;
+    private int idCaderno;
+    private String caderno;
     private Usuario usuario;
 
     public Caderno() {}
 
-    public Caderno(int id, String nome, Usuario usuario) {
-        setId(id);
-        setNome(nome);
+    public Caderno(int idCaderno, String caderno, Usuario usuario) {
+        setIdCaderno(idCaderno);
+        setCaderno(caderno);
         setUsuario(usuario);
     }
 
-    public int getId() {
-        return id;
+    public int getIdCaderno() {
+        return idCaderno;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdCaderno(int idCaderno) {
+        this.idCaderno = idCaderno;
     }
 
-    public String getNome() {
-        return nome;
+    public String getCaderno() {
+        return caderno;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setCaderno(String caderno) {
+        this.caderno = caderno;
     }
 
     public Usuario getUsuario() {
@@ -40,6 +40,6 @@ public class Caderno {
 
     @Override
     public String toString() {
-        return "Caderno: " +getId() +"\n" +getNome() +"\n" +getUsuario();
+        return "Caderno: " +getIdCaderno() +"\n" +getCaderno() +"\n" +getUsuario();
     }
 }

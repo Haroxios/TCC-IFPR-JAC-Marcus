@@ -2,38 +2,30 @@ package com.revisaoWeb.model;
 
 public class Compartilhamento {
 
-    private int id;
-    private Usuario usuario;
+    private int idCompartilhamento;
     private Permissao permissao;
+    private Usuario usuario;
     private Documento documento;
 
     public Compartilhamento() {}
 
-    public Compartilhamento(int id, Usuario usuario, Permissao permissao) {
-        this(id, usuario, permissao, null);
+    public Compartilhamento(int idCompartilhamento, Usuario usuario, Permissao permissao) {
+        this(idCompartilhamento, usuario, permissao, null);
     }
 
-    public Compartilhamento(int id, Usuario usuario, Permissao permissao, Documento documento) {
-        setId(id);
+    public Compartilhamento(int idCompartilhamento, Usuario usuario, Permissao permissao, Documento documento) {
+        setIdCompartilhamento(idCompartilhamento);
         setUsuario(usuario);
         setPermissao(permissao);
         setDocumento(documento);
     }
 
-    public int getId() {
-        return id;
+    public int getIdCompartilhamento() {
+        return idCompartilhamento;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setIdCompartilhamento(int idCompartilhamento) {
+        this.idCompartilhamento = idCompartilhamento;
     }
 
     public Permissao getPermissao() {
@@ -42,6 +34,14 @@ public class Compartilhamento {
 
     public void setPermissao(Permissao permissao) {
         this.permissao = permissao;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Documento getDocumento() {
@@ -54,6 +54,6 @@ public class Compartilhamento {
 
     @Override
     public String toString() {
-        return "Compartilhmento: " +getId() +"\n" +getPermissao() +"\n" +getUsuario() +"\n" +getDocumento();
+        return "Compartilhamento: " +getIdCompartilhamento() +"\n" +getPermissao() +"\n" +getUsuario() +"\n" +getDocumento();
     }
 }

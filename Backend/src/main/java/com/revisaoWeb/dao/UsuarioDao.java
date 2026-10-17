@@ -17,12 +17,12 @@ import org.springframework.stereotype.Repository;
 public class UsuarioDao {
 
     public void criar(Usuario usuario) {
-        String sql = "INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO usuarios (usuario, email, senha) VALUES (?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
         PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, usuario.getNome());
+            ps.setString(1, usuario.getUsuario());
             ps.setString(2, usuario.getEmail());
             ps.setString(3, usuario.getSenha());
 
@@ -46,8 +46,8 @@ public class UsuarioDao {
             while (rs.next()) {
                 Usuario usr = new Usuario();
 
-                usr.setId(rs.getInt("id"));
-                usr.setNome(rs.getString("nome"));
+                usr.setIdUsuario(rs.getInt("idUsuario"));
+                usr.setUsuario(rs.getString("usuario"));
                 usr.setEmail(rs.getString("email"));
                 usr.setSenha(rs.getString("senha"));
 
@@ -62,7 +62,7 @@ public class UsuarioDao {
     }
 
     public Usuario listarId(int id) {
-        String sql = "SELECT * FROM usuarios WHERE id = ?";
+        String sql = "SELECT * FROM usuarios WHERE idUsuario = ?";
         Usuario usr;
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -74,8 +74,8 @@ public class UsuarioDao {
             if (rs.next()) {
                 usr = new Usuario();
 
-                usr.setId(rs.getInt("id"));
-                usr.setNome(rs.getString("nome"));
+                usr.setIdUsuario(rs.getInt("idUsuario"));
+                usr.setUsuario(rs.getString("usuario"));
                 usr.setEmail(rs.getString("email"));
                 usr.setSenha(rs.getString("senha"));
             }
@@ -92,12 +92,12 @@ public class UsuarioDao {
     }
 
     public void atualizar(int id, Usuario usuario) {
-        String sql = "UPDATE usuarios SET nome = ?, email = ?, senha = ? WHERE id = ?";
+        String sql = "UPDATE usuarios SET usuario = ?, email = ?, senha = ? WHERE idUsuario = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
         PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, usuario.getNome());
+            ps.setString(1, usuario.getUsuario());
             ps.setString(2, usuario.getEmail());
             ps.setString(3, usuario.getSenha());
             ps.setInt(4, id);
@@ -112,7 +112,7 @@ public class UsuarioDao {
     }
 
     public void deletar (int id) {
-        String sql = "DELETE FROM usuarios WHERE id = ?";
+        String sql = "DELETE FROM usuarios WHERE idUsuario = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
         PreparedStatement ps = conn.prepareStatement(sql);) {
@@ -139,9 +139,9 @@ public class UsuarioDao {
             if (rs.next()) {
                 usr = new Usuario();
 
-                usr.setId(rs.getInt("id"));
+                usr.setIdUsuario(rs.getInt("idUsuario"));
                 usr.setEmail(rs.getString("email"));
-                usr.setNome(rs.getString("nome"));
+                usr.setUsuario(rs.getString("usuario"));
                 usr.setSenha(rs.getString("senha"));
             }
             else {

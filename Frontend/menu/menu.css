@@ -5,7 +5,7 @@
 }
 
 /*display geral*/
-#cont_menuEsquerdo, #cont_painel, #cont_btnMenuEsquerdo, #cont_usuario, #cont_documentosMenu, #btn_sair, #cont_status {
+#cont_menuEsquerdo, #cont_painel, #cont_btnMenuEsquerdo, #cont_usuario, #cont_documentosMenu, #btn_sair, #cont_status, #cont_proximasRevisoes, #cont_listaCadernos {
     display: flex;
     flex-direction: column;
 }
@@ -104,6 +104,7 @@
 #cont_documentos {
     height: 90%;
     width: 100%;
+    overflow-y: auto;
 }
 
 .btn_confA {
@@ -153,7 +154,7 @@
 
 #cont_documento {
     height: 250px;
-    width: 250px;
+    width: 90%;
     margin-left: 10px;
     margin-top: 10px;
     border: 3px solid #334155;

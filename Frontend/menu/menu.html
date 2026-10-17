@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 
+    <link rel="icon" href="../favico.ico" type="image/ico">
+
     <link rel="stylesheet" href="./menu.css">
     <title>Tela Inicial</title>
 </head>
@@ -23,10 +25,15 @@
             </div>
 
             <div id="cont_documentosMenu">
-                <p class="topicos_menuEsquerdo">Próximas Revisões</p>
-                <a class="link_menuEsquerdo" href="../documento/documento.html">Revisão</a>
-                <p class="topicos_menuEsquerdo">Cadernos(3x~)</p>
-                <a class="link_menuEsquerdo" href="">Caderno</a>
+                <div id="cont_proximasRevisoes">
+                    <p class="topicos_menuEsquerdo">Próximas Revisões</p>
+                    <a class="link_menuEsquerdo" href="../documento/documento.html">Revisão</a>
+                </div>
+
+                <div id="cont_listaCadernos">
+                    <p class="topicos_menuEsquerdo">Cadernos(3x~)</p>
+                    <a class="link_menuEsquerdo" href="">Caderno</a>
+                </div>
             </div>
 
             <div id="cont_btnMenuEsquerdo">
@@ -51,24 +58,28 @@
             </div>
 
             <div id="cont_documentos">
-                <div id="cont_documento">
-                    <div id="cont_status">
-                        <div id="cont_statusAtual"></div>
-                    </div>
-                    <div id="cont_titulo">
-                        <h1 id="tituloDoc">Titulo</h1>
-                    </div>
-                    
-                    <div id="cont_trecho">
-                        <p id="trechoDoc">Pequeno trecho do documento</p>
-                    </div>
+                <a href="" id="a_cards">
 
-                    <div id="cont_tags">
-                        <div id="cont_tag">
-                            <p id="tagDoc"># Tag</p>
+                    <div id="cont_documento">
+                        <div id="cont_status">
+                            <div id="cont_statusAtual"></div>
+                        </div>
+
+                        <div id="cont_titulo">
+                            <h1 id="tituloDoc">Titulo</h1>
+                        </div>
+                    
+                        <div id="cont_trecho">
+                            <p id="trechoDoc">Pequeno trecho do documento</p>
+                        </div>
+                    
+                        <div id="cont_tags">
+                            <div id="cont_tag">
+                                <p id="tagDoc"># Tag</p>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
     </div>

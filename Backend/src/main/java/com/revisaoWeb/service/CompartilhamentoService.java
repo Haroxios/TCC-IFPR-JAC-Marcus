@@ -36,6 +36,4 @@ public class CompartilhamentoService {
         compartilhamentoDao.deletar(id);
     }
 
-
-
 }

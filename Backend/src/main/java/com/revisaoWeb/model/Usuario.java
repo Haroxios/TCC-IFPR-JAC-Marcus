@@ -2,34 +2,34 @@ package com.revisaoWeb.model;
 
 public class Usuario {
 
-    private int id;
-    private String nome;
+    private int idUsuario;
+    private String usuario;
     private String email;
     private String senha;
 
     public Usuario() {}
 
-    public Usuario(int id, String nome, String email, String senha) {
-        setId(id);
-        setNome(nome);
+    public Usuario(int idUsuario, String usuario, String email, String senha) {
+        setIdUsuario(idUsuario);
+        setUsuario(usuario);
         setEmail(email);
         setSenha(senha);
     }
 
-    public int getId() {
-        return id;
+    public int getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
-    public String getNome() {
-        return nome;
+    public String getUsuario() {
+        return usuario;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
     public String getEmail() {
@@ -50,7 +50,7 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "Usuario: " +getId() +"\n" +getNome() +"\n" +getEmail() +"\n" +getSenha();
+        return "Usuario: " +getIdUsuario() +"\n" +getUsuario() +"\n" +getEmail() +"\n" +getSenha();
     }
 
 }

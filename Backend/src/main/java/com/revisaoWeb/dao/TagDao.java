@@ -42,7 +42,7 @@ public class TagDao {
             while (rs.next()) {
                 Tag tag = new Tag();
 
-                tag.setId(rs.getInt("id"));
+                tag.setIdTag(rs.getInt("idTag"));
                 tag.setTag(rs.getString("tag"));
 
                 listaTag.add(tag);
@@ -56,7 +56,7 @@ public class TagDao {
     }
 
     public Tag listarId(int id) {
-        String sql = "SELECT * FROM Tags WHERE id = ?";
+        String sql = "SELECT * FROM tags WHERE idTag = ?";
         Tag tag;
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -68,7 +68,7 @@ public class TagDao {
             if (rs.next()) {
                 tag = new Tag();
 
-                tag.setId(rs.getInt("id"));
+                tag.setIdTag(rs.getInt("idTag"));
                 tag.setTag(rs.getString("tag"));
             }
             else {
@@ -84,7 +84,7 @@ public class TagDao {
     }
 
     public void atualizar(int id, Tag tag) {
-        String sql = "UPDATE tags SET tag = ? WHERE id = ?";
+        String sql = "UPDATE tags SET tag = ? WHERE idTag = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
         PreparedStatement ps = conn.prepareStatement(sql);) {
@@ -101,7 +101,7 @@ public class TagDao {
     }
 
     public void deletar(int id) {
-        String sql = "DELETE FROM tags WHERE id = ?";
+        String sql = "DELETE FROM tags WHERE idTag = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
         PreparedStatement ps = conn.prepareStatement(sql);) {

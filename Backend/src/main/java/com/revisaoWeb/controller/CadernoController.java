@@ -49,4 +49,9 @@ public class CadernoController {
         cadernoService.deletar(id);
         return "Caderno deletado API.";
     }
+
+    @PostMapping("/usuario/{id}")
+    public List<Caderno> listarCadernosUsuario(@PathVariable("id") int idUsuario) {
+        return cadernoService.listarCadernosUsuario(idUsuario);
+    }
 }

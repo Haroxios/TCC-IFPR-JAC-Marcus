@@ -2,6 +2,8 @@ package com.revisaoWeb.service;
 
 import com.revisaoWeb.dao.DocumentoDao;
 import com.revisaoWeb.model.Documento;
+import com.revisaoWeb.model.Caderno;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,6 +37,18 @@ public class DocumentoService {
         documentoDao.deletar(id);
     }
 
+    public List<Documento> listarDocumentosUsuario(List<Integer> idCadernos) {
+        return documentoDao.listarDocumentosUsuario(idCadernos);
+    }
 
+    // fazer para que uma nova data seja marcada
+    public void revisaoDocumento() {
+
+    }
+
+    // fazer com que o status do documento seja atualizado isso não significa atualizar o documento todo
+    public void statusDocumento() {
+
+    }
 
 }

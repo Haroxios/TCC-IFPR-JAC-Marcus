@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.revisaoWeb.service.DocumentoService;
 import com.revisaoWeb.model.Documento;
+import com.revisaoWeb.model.Caderno;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,5 +49,10 @@ public class DocumentoController {
     public String deletar(@PathVariable("id") int id) {
         documentoService.deletar(id);
         return "Documento deletado API.";
+    }
+
+    @PostMapping("/DocsUsr")
+    public List<Documento> listarDocumentosUsuario (@RequestBody List<Integer> idCadernos) {
+        return documentoService.listarDocumentosUsuario(idCadernos);
     }
 }

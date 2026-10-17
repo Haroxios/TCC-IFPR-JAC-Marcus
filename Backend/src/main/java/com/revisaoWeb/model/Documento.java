@@ -4,38 +4,42 @@ import java.sql.Date;
 
 public class Documento {
 
-    private int id;
+    private int idDocumento;
     private String titulo;
+    private String previa;
     private String conteudo;
     private Date dataCriacao;
     private Date dataUltimaEdicao;
+    private Date dataProximaRevisao;
+    private int nivelRevisao;
     private Status statusRevisao;
-    private Date proximaRevisao;
     private Caderno caderno;
 
     public Documento() {}
 
-    public Documento(int id, Date dataCriacao, Date dataUltimaEdicao, Date proximaRevisao, Caderno caderno) {
-        this(id, null, null, dataCriacao, dataUltimaEdicao, null, proximaRevisao, caderno);
+    public Documento(int idDocumento, Date dataCriacao, Date dataUltimaEdicao, Date dataProximaRevisao, int nivelRevisao, Caderno caderno) {
+        this(idDocumento, null, null, null, dataCriacao, dataUltimaEdicao, dataProximaRevisao, nivelRevisao, null, caderno);
     }
 
-    public Documento(int id, String titulo, String conteudo, Date dataCriacao, Date dataUltimaEdicao, Status statusRevisao, Date proximaRevisao, Caderno caderno) {
-        setId(id);
+    public Documento(int idDocumento, String titulo, String previa, String conteudo, Date dataCriacao, Date dataUltimaEdicao, Date dataProximaRevisao, int nivelRevisao, Status statusRevisao, Caderno caderno) {
+        setIdDocumento(idDocumento);
         setTitulo(titulo);
+        setPrevia(previa);
         setConteudo(conteudo);
         setDataCriacao(dataCriacao);
         setDataUltimaEdicao(dataUltimaEdicao);
+        setDataProximaRevisao(dataProximaRevisao);
+        setNivelRevisao(nivelRevisao);
         setStatusRevisao(statusRevisao);
-        setProximaRevisao(proximaRevisao);
         setCaderno(caderno);
     }
 
-    public int getId() {
-        return id;
+    public int getIdDocumento() {
+        return idDocumento;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdDocumento(int idDocumento) {
+        this.idDocumento = idDocumento;
     }
 
     public String getTitulo() {
@@ -44,6 +48,14 @@ public class Documento {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    public String getPrevia() {
+        return previa;
+    }
+
+    public void setPrevia(String previa) {
+        this.previa = previa;
     }
 
     public String getConteudo() {
@@ -70,20 +82,28 @@ public class Documento {
         this.dataUltimaEdicao = dataUltimaEdicao;
     }
 
+    public Date getDataProximaRevisao() {
+        return dataProximaRevisao;
+    }
+
+    public void setDataProximaRevisao(Date dataProximaRevisao) {
+        this.dataProximaRevisao = dataProximaRevisao;
+    }
+
+    public int getNivelRevisao() {
+        return nivelRevisao;
+    }
+
+    public void setNivelRevisao(int nivelRevisao) {
+        this.nivelRevisao = nivelRevisao;
+    }
+
     public Status getStatusRevisao () {
         return statusRevisao;
     }
 
     public void setStatusRevisao (Status statusRevisao) {
         this.statusRevisao = statusRevisao;
-    }
-
-    public Date getProximaRevisao() {
-        return proximaRevisao;
-    }
-
-    public void setProximaRevisao(Date proximaRevisao) {
-        this.proximaRevisao= proximaRevisao;
     }
 
     public Caderno getCaderno() {
@@ -96,6 +116,6 @@ public class Documento {
 
     @Override
     public String toString() {
-        return "Documento: " +getId() +"\n" +getTitulo() +"\n" +getConteudo() +"\n" +getDataCriacao() +"\n" +getDataUltimaEdicao() +"\n" +getStatusRevisao() +"\n" +getProximaRevisao() +"\n" +getCaderno();
+        return "Documento: " +getIdDocumento() +"\n" +getTitulo() +"\n" +getPrevia() +"\n" +getConteudo() +"\n" +getDataCriacao() +"\n" +getDataUltimaEdicao() +"\n" +getDataProximaRevisao() +"\n" +getNivelRevisao() +"\n" +getStatusRevisao() +"\n" +getCaderno();
     }
 }

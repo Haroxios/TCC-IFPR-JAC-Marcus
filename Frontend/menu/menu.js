@@ -1,118 +1,263 @@
-function init() {
+async function init() {
 
-    const params = new URLSearchParams(window.location.search)
-    const id = params.get('id')
+    
+    const id = sessionStorage.getItem('ursLogado')
+    //const id = 1
 
-    menuEsquerdo()
-    menuSuperior()
-
-    documento()
+    if(!id) {
+        window.location.href = '../index.html'
+    }
 
     buscarUsuario(id)
-    //buscarDocumento()
-    //buscarCaderno()
+    const cadernos = await buscarCadernos(id) 
+    const documentos = await buscarDocumentos(cadernos.map(c => c.idCaderno))
+    
+    //buscar Tags
+
+    renderizar(documentos)
+    funcionalidades()
+
 }
 
-async function buscarUsuario(id) {
+function dados() {
+    
+}
 
-    url = `http://localhost:8080/api/usuario/${id}`
+function renderizar(documentos) {
+
+    //console.log(documentos)
+    rendCards(documentos)
+    
+    const docListar = documentos.map(d => ({
+        idDocumento: d.idDocumento,
+        idCaderno: d.caderno.idCaderno,
+        titulo: d.titulo,
+        caderno: d.caderno.caderno,
+        dataUltimaEdicao: d.dataUltimaEdicao,
+    }))
+
+    //console.log(docListar)
+    rendProximasRev(docListar)
+    rendCadernos(docListar)
+
+}
+
+
+function funcionalidades() {
+
+    botoes()
+/*
+    pesquisa()
+    sair()*/
+
+}
+
+
+
+/*
+-----------------------------------------------------------
+--------------     Procura os dados     -------------------
+---------------------- mudar dps-  ------------------------
+*/
+
+//vai ser trocado para pegar na sessão do navegador
+async function buscarUsuario(id) {
+    const usr = document.getElementById('h1_usuario')
+    const url = `http://localhost:8080/api/usuario/${id}`
 
     try {
-        const req = await fetch(url)
+        const res = await fetch(url)
 
-        if (!req.ok) {
+        if (!res.ok) {
             throw new Error(`Erro HTTP: ${res.status}`)
         }
 
-        const cadernos = JSON.parse(await req.text())
-        console.log(cadernos)
+        const usuario = await res.json()    
+        usr.innerHTML = usuario.usuario
 
     }
     catch (e) {
         console.log('Erro: ', e.message)
     }
-
 }
 
-function buscarDocumento() {}
+async function buscarCadernos(id) {
+    const url = `http://localhost:8080/api/caderno/usuario/${id}`
 
+    try {
+        const res = await fetch(url, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+        })
 
+        if (!res.ok) {
+            throw new Error(`Erro HTTP: ${res.status}`)
+        }
 
+        const cadernosUsuario = await res.json()
+        return cadernosUsuario
 
-
-function menuEsquerdo() {
-
-    //puxar no banco o nome do usuario ou trazer na hora do login
-    document.getElementById('h1_usuario').innerHTML = 'PuxarNoBanco'
-        
-    listaRevisões()
-    listaCaderno()
-    botoesE()
+    }
+    catch (e) {
+        console.log('Erro: ', e.message)  
+    }
 }
 
-function menuSuperior() {
-    botoesS()
-    pesquisa()
-}
+async function buscarDocumentos(idCadernos) {
+    const url = `http://localhost:8080/api/documento/DocsUsr`
 
-function documento() {
+    try {
+        const res = await fetch(url, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(idCadernos)
+        })
 
-}
+        if(!res.ok) {
+            throw new Error(`Erro HTTP: ${res.status}`)
+        }
 
-
-
-
-
-function listaRevisões() {
-    // com a lista de revisão ordenar em prioridade
-    // depois remover o que não precisa ser revisado
-    // rederizar
-
-}
-
-function listaCaderno() {
-
-    // quase mesma coisa do revisar
-    // mas definir quantidade a ser mostrado e
-    // se vai ter outra pagina apenas para mostara os caderno
-
+        const documentosUsuario = await res.json()
+        return documentosUsuario
+    }
+    catch (e) {
+        console.log('Erro: ', e.message)
+    }
 }
 
 
 
-function botoesE() {
-    const btnCriar = document.getElementById('btn_criar')
-    const btnSair = document.getElementById('btn_sair')
 
-    btnCriar.addEventListener('click', () => {
-        window.location.href = '../documento/documento.html'
+/*
+-----------------------------------------------------------
+---------------     Renderizações          ----------------
+-----------------------------------------------------------
+*/
+
+function rendCards(documentos) {
+    const contDocumentos = document.getElementById('cont_documentos')
+    const fragmento = document.createDocumentFragment()
+
+    documentos.forEach (item => {
+        const card = document.createElement('a')
+        card.id = 'a_cards'
+        card.href = `/documento/documento.html?id=${item.idDocumento}`
+
+        const contDocumento = document.createElement('div')
+        contDocumento.id = 'cont_documento' 
+
+        const contStatus = document.createElement('div')
+        const statusAtual = document.createElement('div')
+        contStatus.id = 'cont_status'
+        statusAtual.id = 'cont_statusAtual'
+
+        const contTitulo = document.createElement('div')
+        const titulo = document.createElement('h1')
+        contTitulo.id = 'cont_titulo'
+        titulo.id = 'tituloDoc'
+
+        const contTrecho = document.createElement('div')
+        const previa = document.createElement('p')
+        contTrecho.id = 'cont_trecho'
+        previa.id = 'trechoDoc'
+
+        const contTags = document.createElement('div')
+        const contTag = document.createElement('div')
+        const tag = document.createElement('p')
+        contTags.id = 'cont_tags'
+        contTag.id = 'cont_tag'
+        tag.id = 'tagDoc'
+
+        titulo.textContent = item.titulo
+        previa.textContent = item.conteudo
+
+        contTitulo.appendChild(titulo)
+        contTrecho.appendChild(previa)
+
+        contDocumento.appendChild(contTitulo)
+        contDocumento.appendChild(contTrecho)
+
+        card.appendChild(contDocumento)
+
+        fragmento.appendChild(card)
     })
-
-    btnSair.addEventListener('click', () => {
-        window.location.href = '../index.html'
-    })
-}
-
-function botoesS() {
-    const btnNovaPasta = document.getElementById('btn_novaPasta')
-    const btnOrdenar = document.getElementById('btn_ordenar')
-    const btnFiltrar = document.getElementById('btn_filtrar')
     
+    contDocumentos.appendChild(fragmento)
 }
 
 
+function rendProximasRev(docListar) {
+    const proximasRevisoes = document.getElementById('cont_proximasRevisoes')
+    const fragmento = document.createDocumentFragment()
 
-function pesquisa() {
-    const inpProcurar = document.getElementById('inp_procurar')
-    const btnProcurar = document.getElementById('btn_procurar')
+    docListar.forEach (e => {
+        const revisaoDoc = document.createElement('a')
+        revisaoDoc.className = 'link_menuEsquerdo'
+        revisaoDoc.href = `/documento/documento.html?id=${e.idDocumento}`
+        revisaoDoc.innerHTML = e.titulo
 
-    btnProcurar.addEventListener('click', () => {
-        
+        fragmento.appendChild(revisaoDoc)
+    })
 
+    proximasRevisoes.appendChild(fragmento)
+
+}
+
+
+function rendCadernos(docListar) {
+
+    // DEFINIR MELHOR DEPOIS O QUE QUERO COM ISTO
+    
+    /*const listarCadernos = document.getElementById('cont_listaCadernos')
+    const fragmento = document.createDocumentFragment()
+
+    listarCadernos.forEach (e => {
+        const caderno = document.createElement('a')
+        caderno.className = 'link_menuEsquerdo'
+        caderno.
+
+
+
+    })*/
+
+}
+
+/*
+-----------------------------------------------------------
+---------------            Botões          ----------------
+-----------------------------------------------------------
+*/
+
+function botoes() {
+
+    criarDocumento()
+}
+
+async function criarDocumento() {
+
+    const criarDoc = document.getElementById('btn_criar')
+
+    criarDoc.addEventListener('click', async ()  => {
+
+        const url = 'http://localhost:8080/api/documento'
+
+        try {
+            const response = await fetch(url)
+
+            if (!response.ok) {
+                throw new Error(`Erro HTTP: ${res.status}`)
+            }
+
+
+
+        }
+        catch (e) {
+            console.log('Erro: ' +e.message)
+        }
+
+        window.location.href = `../documento/documento.html?id=${id}`
     })
 }
-
-
 
 
 

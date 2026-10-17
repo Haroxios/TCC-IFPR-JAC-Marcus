@@ -2,22 +2,22 @@ package com.revisaoWeb.model;
 
 public class Tag {
 
-    private int id;
+    private int idTag;
     private String tag;
 
     public Tag() {}
 
-    public Tag(int id, String tag) {
-        setId(id);
+    public Tag(int idTag, String tag) {
+        setIdTag(idTag);
         setTag(tag);
     }
 
-    public int getId() {
-        return id;
+    public int getIdTag() {
+        return idTag;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdTag(int idTag) {
+        this.idTag = idTag;
     }
 
     public String getTag() {
@@ -30,7 +30,7 @@ public class Tag {
 
     @Override
     public String toString() {
-        return "Tag: " +getId() +"\n" +getTag();
+        return "Tag: " +getIdTag() +"\n" +getTag();
     }
 
 }

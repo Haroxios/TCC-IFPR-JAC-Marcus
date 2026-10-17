@@ -2,24 +2,24 @@ package com.revisaoWeb.model;
 
 public class TagDoc {
 
-    private int id;
+    private int idTagDoc;
     private Documento documento;
     private Tag tag;
 
     public TagDoc() {}
 
-    public TagDoc(int id, Documento documento, Tag tag) {
-        setId(id);
+    public TagDoc(int idTagDoc, Documento documento, Tag tag) {
+        setIdTagDoc(idTagDoc);
         setDocumento(documento);
         setTag(tag);
     }
 
-    public int getId() {
-        return id;
+    public int getIdTagDoc() {
+        return idTagDoc;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdTagDoc(int idTagDoc) {
+        this.idTagDoc = idTagDoc;
     }
 
     public Documento getDocumento() {
@@ -40,6 +40,6 @@ public class TagDoc {
 
     @Override
     public String toString() {
-        return "TagDoc: " +getId() +"\n" +getDocumento() +"\n" +getTag();
+        return "TagDoc: " +getIdTagDoc() +"\n" +getDocumento() +"\n" +getTag();
     }
 }

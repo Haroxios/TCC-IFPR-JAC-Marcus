@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-br">
     
-<head>
+    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+    <link rel="icon" href="../favico.ico" type="image/ico">
 
     <link rel="stylesheet" href="./documento.css">
     <title>Documento</title>
@@ -24,8 +26,8 @@
                 <p>verificar se vou usar isto</p>    
             </div>
             <div id="cont_documento">
-                <h1 id="h1_tituloDocumento">Titulo</h1>
-                <p id="p_textoDocumento">O texto em sí </p>
+                <h1 id="h1_tituloDocumento" contenteditable="true">Titulo</h1>
+                <p contenteditable="true" id="p_textoDocumento">O texto em sí </p>
             </div>
         </div> 
         <div id="cont_menuDireito">
@@ -34,14 +36,34 @@
                 <button id="btn_compartilhar">Compartilhar</button>
             </div>
             <div id="cont_edicaoTexto">
-                <p>Edição de texto como italico, negrito, cor, marcador</p>
+                <p>cor, marcador</p>
+                <button id="btn_salvar">Salvar</button>
+                <!--
+                    <button id="btn_italico">i</button>
+                    <button id="btn_negrito">N</button>
+                    <button id="btn_sublinhado">_</button>
+                    <button id="btn_tachado">-</button>
+                    <button id="btn_cores">Cor</button>
+                    <button id="btn_marcador">MarcaTxt</button>
+                    -->
             </div>
             <div id="cont_informacoesDocumento">
-                <p>tags, estado, deletar, revisão, outras infos</p>
+                <p>revisão, outras infos</p>
+                <p id="p_tag1">T1</p>
+                <p id="p_tag2">T2</p>
+                <p id="p_tag3">T3</p>
+                <button id="p_adicionarTag">+</button>
+                <label for="Status">Estado do Documento:</label>
+                    <select id="slct_estado">
+                        <option value="opt_andamento">Andamento</option>
+                        <option value="opt_pendente">Pendente</option>
+                        <option value="opt_concluido">Concluido</option>
+                    </select>
+                <button id="btn_revisaoFinalizado">Finalizar revisão</button>
+                <button id="btn_deletar">Del</button>
             </div>
             <div id="cont_comentarios">
                 <p>ver ainda acho que vou remover, ou fazer uma area de comentários</p>
-            </div>
         </div>
         
     </div>

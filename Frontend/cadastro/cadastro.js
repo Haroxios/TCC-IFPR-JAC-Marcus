@@ -70,7 +70,7 @@ function confirmarSenha(senha, confirmar) {
 async function cadastrarUsuarioBack(usuario, email, senha) {
     const url = 'http://localhost:8080/api/usuario'
     const usr = {
-        nome: usuario,
+        usuario: usuario,
         email: email,
         senha: senha
     }
@@ -86,7 +86,7 @@ async function cadastrarUsuarioBack(usuario, email, senha) {
             throw new Error(`Erro HTTP: ${res.status}`)
         }
 
-        const texto = await res.text()
+        const texto = await res.json()
         return texto
     }
     catch(e) {
@@ -95,7 +95,7 @@ async function cadastrarUsuarioBack(usuario, email, senha) {
 }
 
 function mensagem(usrEstado) {
-    const aviso = documento.GetElementById('p_aviso')
+    const aviso = document.getElementById('p_aviso')
 
     // email já existe
     if (usrEstado == 0) {

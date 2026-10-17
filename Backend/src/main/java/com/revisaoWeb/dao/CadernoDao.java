@@ -18,13 +18,13 @@ import com.revisaoWeb.config.DatabaseConnection;
 public class CadernoDao {
 
     public void criar (Caderno caderno) {
-        String sql = "INSERT INTO cadernos (nome, idUsuario) VALUES (?, ?)";
+        String sql = "INSERT INTO cadernos (caderno, idUsuarioFK) VALUES (?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, caderno.getNome());
-            ps.setInt(2, caderno.getUsuario().getId());
+            ps.setString(1, caderno.getCaderno());
+            ps.setInt(2, caderno.getUsuario().getIdUsuario());
 
             ps.executeUpdate();
             System.out.println("Caderno Cadastrado");
@@ -46,10 +46,10 @@ public class CadernoDao {
                 Caderno caderno = new Caderno();
                 Usuario usuario = new Usuario();
 
-                usuario.setId(rs.getInt("idUsuario"));
+                usuario.setIdUsuario(rs.getInt("idUsuarioFK"));
 
-                caderno.setId(rs.getInt("id"));
-                caderno.setNome(rs.getString("nome"));
+                caderno.setIdCaderno(rs.getInt("idCaderno"));
+                caderno.setCaderno(rs.getString("caderno"));
                 caderno.setUsuario(usuario);
 
                 listaCaderno.add(caderno);
@@ -65,7 +65,7 @@ public class CadernoDao {
     }
 
     public Caderno listarId (int id) {
-        String sql = "SELECT * FROM cadernos WHERE id = ?";
+        String sql = "SELECT * FROM cadernos WHERE idCaderno = ?";
         Caderno caderno;
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -78,10 +78,10 @@ public class CadernoDao {
                 caderno = new Caderno();
                 Usuario usuario = new Usuario();
 
-                usuario.setId(rs.getInt("idUsuario"));
+                usuario.setIdUsuario(rs.getInt("idUsuarioFK"));
 
-                caderno.setId(rs.getInt("id"));
-                caderno.setNome(rs.getString("nome"));
+                caderno.setIdCaderno(rs.getInt("idCaderno"));
+                caderno.setCaderno(rs.getString("caderno"));
                 caderno.setUsuario(usuario);
             }
             else {
@@ -96,13 +96,13 @@ public class CadernoDao {
     }
 
     public void atualizar (int id, Caderno caderno) {
-        String sql = "UPDATE cadernos SET nome = ?, idUsuario = ? WHERE id = ?";
+        String sql = "UPDATE cadernos SET caderno = ?, idUsuarioFK = ? WHERE idCaderno = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, caderno.getNome());
-            ps.setInt(2, caderno.getUsuario().getId());
+            ps.setString(1, caderno.getCaderno());
+            ps.setInt(2, caderno.getUsuario().getIdUsuario());
             ps.setInt(3, id);
 
             ps.executeUpdate();
@@ -116,7 +116,7 @@ public class CadernoDao {
 
 
     public void deletar(int id) {
-        String sql = "DELETE FROM cadernos WHERE id = ?";
+        String sql = "DELETE FROM cadernos WHERE idCaderno = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -129,6 +129,37 @@ public class CadernoDao {
         catch (SQLException e) {
             throw new RuntimeException("Erro ao deletar caderno: " +e.getMessage());
         }
+    }
+
+    public List<Caderno> listarCadernosUsuario(int idUsuarioFK) {
+        String sql = "SELECT * FROM cadernos WHERE idUsuarioFK = ?";
+        List<Caderno> cadernosUsuario = new ArrayList<>();
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setInt(1, idUsuarioFK);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Caderno caderno = new Caderno();
+                Usuario usuario = new Usuario();
+
+                usuario.setIdUsuario(idUsuarioFK);
+
+                caderno.setIdCaderno(rs.getInt("idCaderno"));
+                caderno.setCaderno(rs.getString("caderno"));
+                caderno.setUsuario(usuario);
+
+                cadernosUsuario.add(caderno);
+            }
+        }
+        catch (SQLException e) {
+            throw new RuntimeException("Erro ao listar cadernos do usuário" +e.getMessage());
+        }
+
+        System.out.println("Cadernos de usuário listado.");
+        return cadernosUsuario;
     }
 }
 

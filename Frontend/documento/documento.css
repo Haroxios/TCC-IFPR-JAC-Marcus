@@ -64,6 +64,7 @@
     border-radius: 15px;
     margin: 20px;
     background-color: #1E293B;
+    overflow-y: auto;
 }
 
 #h1_tituloDocumento {
@@ -72,9 +73,17 @@
     margin: 20px;
 }
 
+#h1_tituloDocumento:focus {
+    outline: none;
+}
+
 #p_textoDocumento{
     height: 90%;
     margin: 20px;
+}
+
+#p_textoDocumento:focus {
+    outline: none;
 }
 
 

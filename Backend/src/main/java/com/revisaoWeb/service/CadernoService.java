@@ -5,6 +5,7 @@ import com.revisaoWeb.dao.CadernoDao;
 
 import java.util.List;
 
+import com.revisaoWeb.model.Compartilhamento;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -36,6 +37,8 @@ public class CadernoService {
         cadernoDao.deletar(id);
     }
 
-
+    public List<Caderno> listarCadernosUsuario(int idUsuario) {
+        return cadernoDao.listarCadernosUsuario(idUsuario);
+    }
 
 }

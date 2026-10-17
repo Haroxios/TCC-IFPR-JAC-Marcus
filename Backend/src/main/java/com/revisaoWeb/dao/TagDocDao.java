@@ -19,13 +19,13 @@ import org.springframework.stereotype.Repository;
 public class TagDocDao {
 
     public void criar(TagDoc td) {
-        String sql = "INSERT INTO tag_doc (idDocumento, idTag) VALUES (?, ?)";
+        String sql = "INSERT INTO tag_doc (idDocumentoFK, idTagFK) VALUES (?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
         PreparedStatement ps = conn.prepareStatement(sql);) {
 
-            ps.setInt(1, td.getDocumento().getId());
-            ps.setInt(2, td.getTag().getId());
+            ps.setInt(1, td.getDocumento().getIdDocumento());
+            ps.setInt(2, td.getTag().getIdTag());
 
             ps.executeUpdate();
             System.out.println("TagDoc criada.");
@@ -48,10 +48,10 @@ public class TagDocDao {
                 Documento doc = new Documento();
                 Tag tag = new Tag();
 
-                doc.setId(rs.getInt("idDocumento"));
-                tag.setId(rs.getInt("idTag"));
+                doc.setIdDocumento(rs.getInt("idDocumentoFK"));
+                tag.setIdTag(rs.getInt("idTagFK"));
 
-                td.setId(rs.getInt("id"));
+                td.setIdTagDoc(rs.getInt("idTagDoc"));
                 td.setDocumento(doc);
                 td.setTag(tag);
 
@@ -67,7 +67,7 @@ public class TagDocDao {
     }
 
     public TagDoc listarId(int id) {
-        String sql = "SELECT * FROM tag_doc WHERE id = ?";
+        String sql = "SELECT * FROM tag_doc WHERE idTagDoc = ?";
         TagDoc tagDoc;
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -81,10 +81,10 @@ public class TagDocDao {
                 Documento doc = new Documento();
                 Tag tag = new Tag();
 
-                doc.setId(rs.getInt("idDocumento"));
-                tag.setId(rs.getInt("idTag"));
+                doc.setIdDocumento(rs.getInt("idDocumentoFK"));
+                tag.setIdTag(rs.getInt("idTagFK"));
 
-                tagDoc.setId(rs.getInt("id"));
+                tagDoc.setIdTagDoc(rs.getInt("idTagDoc"));
                 tagDoc.setDocumento(doc);
                 tagDoc.setTag(tag);
             }
@@ -100,13 +100,13 @@ public class TagDocDao {
     }
 
     public void atualizar(int id, TagDoc td) {
-        String sql = "UPDATE tag_doc SET idDocumento = ?, idTag = ? WHERE id = ?";
+        String sql = "UPDATE tag_doc SET idDocumentoFK = ?, idTagFK = ? WHERE idTagDoc = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);) {
 
-            ps.setInt(1, td.getDocumento().getId());
-            ps.setInt(2, td.getTag().getId());
+            ps.setInt(1, td.getDocumento().getIdDocumento());
+            ps.setInt(2, td.getTag().getIdTag());
             ps.setInt(3, id);
 
             ps.executeUpdate();
@@ -118,14 +118,14 @@ public class TagDocDao {
     }
 
     public void deletar(int id) {
-        String sql = "DELETE FROM tag_doc WHERE id = ?";
+        String sql = "DELETE FROM tag_doc WHERE idTagDoc = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);) {
 
             ps.setInt(1, id);
             ps.executeUpdate();
-            System.out.println("TagDog deletado.");
+            System.out.println("TagDoc deletado.");
 
         }
         catch (SQLException e) {

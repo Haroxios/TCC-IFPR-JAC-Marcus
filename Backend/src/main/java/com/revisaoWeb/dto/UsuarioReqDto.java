@@ -4,30 +4,30 @@ import com.revisaoWeb.model.Usuario;
 
 public class UsuarioReqDto {
 
-    private int id;
-    private String nome;
+    private int idUsuario;
+    private String usuario;
     private String email;
 
     public UsuarioReqDto(Usuario usuario) {
-        setId(usuario.getId());
-        setNome(usuario.getNome());
+        setIdUsuario(usuario.getIdUsuario());
+        setUsuario(usuario.getUsuario());
         setEmail(usuario.getEmail());
     }
 
-    public int getId() {
-        return id;
+    public int getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
-    public String getNome() {
-        return nome;
+    public String getUsuario() {
+        return usuario;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
     public String getEmail() {

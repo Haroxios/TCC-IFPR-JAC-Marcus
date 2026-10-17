@@ -20,14 +20,14 @@ import java.util.ArrayList;
 public class CompartilhamentoDao {
 
     public void criar(Compartilhamento comp) {
-        String sql = "INSERT INTO compartilhamentos (permissao, idUsuario, idDocumento) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO compartilhamentos (permissao, idUsuarioFK, idDocumentoFK) VALUES (?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
         PreparedStatement ps = conn.prepareStatement(sql);) {
 
             ps.setString(1, comp.getPermissao().name());
-            ps.setInt(2, comp.getUsuario().getId());
-            ps.setInt(3, comp.getDocumento().getId());
+            ps.setInt(2, comp.getUsuario().getIdUsuario());
+            ps.setInt(3, comp.getDocumento().getIdDocumento());
 
             ps.executeUpdate();
             System.out.println("Compartilhamento criado.");
@@ -51,10 +51,10 @@ public class CompartilhamentoDao {
                 Usuario usuario = new Usuario();
                 Documento documento = new Documento();
 
-                usuario.setId(rs.getInt("idUsuario"));
-                documento.setId(rs.getInt("idDocumento"));
+                usuario.setIdUsuario(rs.getInt("idUsuarioFK"));
+                documento.setIdDocumento(rs.getInt("idDocumentoFK"));
 
-                comp.setId(rs.getInt("id"));
+                comp.setIdCompartilhamento(rs.getInt("idCompartilhamento"));
                 comp.setPermissao(Permissao.valueOf(rs.getString("permissao")));
                 comp.setUsuario(usuario);
                 comp.setDocumento(documento);
@@ -71,7 +71,7 @@ public class CompartilhamentoDao {
     }
 
     public Compartilhamento listarId(int id) {
-        String sql = "SELECT * FROM compartilhamentos WHERE id = ?";
+        String sql = "SELECT * FROM compartilhamentos WHERE idCompartilhamento = ?";
         Compartilhamento comp;
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -85,10 +85,10 @@ public class CompartilhamentoDao {
                 Usuario usr = new Usuario();
                 Documento doc = new Documento();
 
-                usr.setId(rs.getInt("idUsuario"));
-                doc.setId(rs.getInt("idDocumento"));
+                usr.setIdUsuario(rs.getInt("idUsuarioFK"));
+                doc.setIdDocumento(rs.getInt("idDocumentoFK"));
 
-                comp.setId(rs.getInt("id"));
+                comp.setIdCompartilhamento(rs.getInt("idCompartilhamento"));
                 comp.setPermissao(Permissao.valueOf(rs.getString("permissao")));
                 comp.setUsuario(usr);
                 comp.setDocumento(doc);
@@ -105,14 +105,14 @@ public class CompartilhamentoDao {
     }
 
     public void atualizar(int id, Compartilhamento comp) {
-        String sql = "UPDATE compartilhamentos SET permissao = ?, idUsuario = ?, idDocumento = ? WHERE id = ?";
+        String sql = "UPDATE compartilhamentos SET permissao = ?, idUsuarioFK = ?, idDocumentoFK = ? WHERE idCompartilhamento = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
         PreparedStatement ps = conn.prepareStatement(sql);) {
 
             ps.setString(1, comp.getPermissao().name());
-            ps.setInt(2, comp.getUsuario().getId());
-            ps.setInt(3, comp.getDocumento().getId());
+            ps.setInt(2, comp.getUsuario().getIdUsuario());
+            ps.setInt(3, comp.getDocumento().getIdDocumento());
             ps.setInt(4, id);
 
             ps.executeUpdate();
@@ -124,7 +124,7 @@ public class CompartilhamentoDao {
     }
 
     public void deletar(int id) {
-        String sql = "DELETE FROM compartilhamentos WHERE id = ?";
+        String sql = "DELETE FROM compartilhamentos WHERE idCompartilhamento = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
         PreparedStatement ps = conn.prepareStatement(sql);) {

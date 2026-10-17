@@ -1,41 +1,80 @@
-function init() {
-    montarDocumento()
-    compartilhamento()
-    voltarPagina()
+async function init() {
+//tenho que deixar duas rota aqui uma para quando abrir o documento outra para quando criar ele 
 
+    const params = new URLSearchParams(window.location.search)
+    //const id = params.get('id')
+    const id = 1
+    
+    const textoDocumento = await documento(id)
+    console.log(textoDocumento)
+    montarDocumento(textoDocumento)
+
+    salvar(id)
 }
 
-async function montarDocumento() {
+async function documento(id) {
+    const url = `http://localhost:8080/api/documento/${id}`
+
+    try {
+        const response = await fetch(url)
+
+        if (!response.ok) {
+            throw new Error (`Erro HTTP: ${response.status}`)
+        }
+
+        const txtDoc = await response.json()
+        return txtDoc
+    }
+    catch (e) {
+        console.log('Erro: ', e.message)
+    }
+}
+
+async function montarDocumento(textoDocumento, documento) {
     const titulo = document.getElementById('h1_tituloDocumento')
     const corpo = document.getElementById('p_textoDocumento')
 
-    //pegar o que está no banco e jogar ali abaixo
-
-    titulo.innerHTML = ':D'
-    corpo.innerHTML = 'D:'
+    titulo.innerHTML = textoDocumento.titulo
+    corpo.innerHTML = textoDocumento.conteudo
 }
 
-function compartilhamento() {
-    const btnCompartilhar = document.getElementById('btn_compartilhar')
 
-    btnCompartilhar.addEventListener('click', () => {
-        //popCompartilhar()
+function salvar(id) {
+    const salvar = document.getElementById('btn_salvar')
+
+    salvar.addEventListener('click', async () => {
+        const titulo = document.getElementById('h1_tituloDocumento').textContent
+        const conteudo = document.getElementById('p_textoDocumento').textContent
+        const statusRevisao = document.getElementById('slct_estado')
+
+        const url = `http://localhost:8080/api/documento/${id}`
+        const docAtual = {conteudo: conteudo,
+            //dataProximaRevisao: "2026-10-15T03:00:00.000Z",
+            //dataUltimaEdicao: "2026-10-08T03:00:00.000Z",
+            idDocumento: 1,
+            nivelRevisao: 1,
+            statusRevisao: statusRevisao,
+            titulo: titulo
+        }
+
+        try {
+            const response =  await fetch(url, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(docAtual)
+            })
+
+            if(!response.ok) {
+                throw new Error (`Erro HTTP: ${response}`)
+            }
+
+            //const doc = await response.json()
+            console.log(doc)
+        }
+        catch (e) {
+            console.log('Erro: ' +e.message)
+        }
     })
 }
-
-function voltarPagina() {
-    const voltarSalvar = document.getElementById('a_voltar')
-
-    //salvar antes de voltar ou deixar salvando automatico?
-}
-
-
-
-//verificar se esse é o melhor caminho para o popup
-function popCompartilhar() {
-    document.getElementByIb('dial_compartilhamento').showModal()
-}
-
-
 
 init()
