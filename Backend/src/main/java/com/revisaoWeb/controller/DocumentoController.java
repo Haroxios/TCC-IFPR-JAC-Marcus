@@ -55,4 +55,34 @@ public class DocumentoController {
     public List<Documento> listarDocumentosUsuario (@RequestBody List<Integer> idCadernos) {
         return documentoService.listarDocumentosUsuario(idCadernos);
     }
+
+    @PutMapping("/revisar/{id}")
+    public String revisar(@PathVariable("id") int id) {
+        documentoService.revisar(id);
+        return "Documento revisado.";
+    }
+
+    @PutMapping("/adiar/{id}")
+    public String adiar(@PathVariable("id") int id) {
+        documentoService.adiar(id);
+        return "Documento adiado.";
+    }
+
+    @PutMapping("/desativar/{id}")
+    public String desativar(@PathVariable("id") int id) {
+        documentoService.desativar(id);
+        return "Documento desativado.";
+    }
+
+    @PutMapping("/concluir/{id}")
+    public String concluir(@PathVariable("id") int id) {
+        documentoService.concluir(id);
+        return "Documento conluido.";
+    }
+
+    @PutMapping("/reativar/{id}")
+    public String reativar(@PathVariable("id") int id) {
+        documentoService.reativar(id);
+        return "Documento reativado.";
+    }
 }

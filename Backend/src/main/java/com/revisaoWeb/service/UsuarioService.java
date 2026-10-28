@@ -7,19 +7,21 @@ import com.revisaoWeb.dto.UsuarioReqDto;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 
 @Service
 public class UsuarioService {
 
     private final UsuarioDao usuarioDao;
+    //encoder == codificador >>> seja para crip ou descrip
+    private final Argon2PasswordEncoder encoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
 
     public UsuarioService(UsuarioDao usuarioDao) {
         this.usuarioDao = usuarioDao;
     }
 
     public void criar(Usuario usuario) {
-        //String senha = usuario.getSenha();
-        //String senhaCriptografada = senha;
+        usuario.setSenha(criptografarSenha(usuario.getSenha()));
 
         usuarioDao.criar(usuario);
     }
@@ -45,18 +47,29 @@ public class UsuarioService {
         //String token = "Futuro token e talz";
 
         if (usuario == null) {
-            throw new RuntimeException("Usuário ou senha inválidos");
+            throw new RuntimeException("Usuário ou senha inválidos.");
         }
 
-        if (!senha.equals(usuario.getSenha())) {
-            throw new RuntimeException("Usuário ou senha inválidos");
+        // se retorna boolean então quero saber se é falso
+        if (!encoder.matches(senha, usuario.getSenha())) {
+            throw new RuntimeException("Usuário ou senha inválidos.");
         }
 
-        //System.out.println(usuario);
         return new UsuarioReqDto(usuario);
     }
 
     public boolean verificarEmail(String email) {
         return usuarioDao.verificarEmail(email);
+    }
+
+    public String criptografarSenha(String senha) {
+
+        if (senha == null || senha.isBlank()) {
+            throw new RuntimeException("Senha é um campo obrigatório.");
+        }
+
+        String senhaCriptografada = encoder.encode(senha);
+
+        return senhaCriptografada;
     }
 }

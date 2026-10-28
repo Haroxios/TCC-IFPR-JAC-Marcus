@@ -4,33 +4,58 @@ import com.revisaoWeb.config.DatabaseConnection;
 import com.revisaoWeb.model.Documento;
 import com.revisaoWeb.model.Caderno;
 import com.revisaoWeb.model.Status;
-import com.revisaoWeb.dto.MenuDataDto;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 import java.util.List;
 import java.util.ArrayList;
-
 import java.util.Collections;
+
+import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class DocumentoDao {
 
+    /*
+
+    dá para depois fazer o métoodo dentro do métoodo
+    mas não é essencial para funcionar
+    pois já funciona sem ele
+
+    private Documento mapearMenuDocumento(ResultSet rs) throws SQLException{
+        Documento documento = new Documento();
+        Caderno caderno = new Caderno();
+
+        caderno.setIdCaderno(rs.getInt("idCadernoFK"));
+
+        documento.setIdDocumento(rs.getInt("idDocumento"));
+        documento.setTitulo(rs.getString("titulo"));
+        documento.setPrevia(rs.getString("previa"));
+        documento.setConteudo(rs.getString("conteudo"));
+        documento.setDataCriacao(rs.getObject("dataCriacao", LocalDateTime.class));
+        documento.setDataUltimaEdicao(rs.getObject("dataUltimaEdicao", LocalDateTime.class));
+        documento.setDataProximaRevisao(rs.getObject("dataProximaRevisao", LocalDate.class));
+        documento.setNivelRevisao(rs.getInt("nivelRevisao"));
+        documento.setStatusRevisao(Status.valueOf(rs.getString("statusRevisao")));
+        documento.setCaderno(caderno);
+
+        return documento;
+    }*/
+
+    // dá para remover a previa já que quando criar o documento ele virá vazio mesmo
     public void criar(Documento documento) {
-        String sql = "INSERT INTO documentos (titulo, conteudo, dataUltimaEdicao, dataProximaRevisao, nivelRevisao, statusRevisao, idCadernoFK) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO documentos (titulo, previa, conteudo, dataProximaRevisao, nivelRevisao, statusRevisao, idCadernoFK) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);) {
 
             ps.setString(1, documento.getTitulo());
-            ps.setString(2, documento.getConteudo());
-            ps.setDate(3, documento.getDataUltimaEdicao());
-            ps.setDate(4, documento.getDataProximaRevisao());
+            ps.setString(2, documento.getPrevia());
+            ps.setString(3,documento.getConteudo());
+            ps.setObject(4, documento.getDataProximaRevisao());
             ps.setInt(5, documento.getNivelRevisao());
             ps.setString(6, documento.getStatusRevisao().name()); //.name() puxa em string a informação
             ps.setInt(7, documento.getCaderno().getIdCaderno());
@@ -59,9 +84,9 @@ public class DocumentoDao {
                 documento.setTitulo(rs.getString("titulo"));
                 documento.setIdDocumento(rs.getInt("idDocumento"));
                 documento.setConteudo(rs.getString("conteudo"));
-                documento.setDataCriacao(rs.getDate("dataCriacao"));
-                documento.setDataUltimaEdicao(rs.getDate("dataUltimaEdicao"));
-                documento.setDataProximaRevisao(rs.getDate("dataProximaRevisao"));
+                documento.setDataCriacao(rs.getObject("dataCriacao", LocalDateTime.class));
+                documento.setDataUltimaEdicao(rs.getObject("dataUltimaEdicao", LocalDateTime.class));
+                documento.setDataProximaRevisao(rs.getObject("dataProximaRevisao", LocalDate.class));
                 documento.setNivelRevisao(rs.getInt("nivelRevisao"));
                 documento.setStatusRevisao(Status.valueOf(rs.getString("statusRevisao"))); // 'Contrário' para status
                 documento.setCaderno(caderno);
@@ -94,9 +119,9 @@ public class DocumentoDao {
                 doc.setTitulo(rs.getString("titulo"));
                 doc.setIdDocumento(rs.getInt("idDocumento"));
                 doc.setConteudo(rs.getString("conteudo"));
-                doc.setDataCriacao(rs.getDate("dataCriacao"));
-                doc.setDataUltimaEdicao(rs.getDate("dataUltimaEdicao"));
-                doc.setDataProximaRevisao(rs.getDate("dataProximaRevisao"));
+                doc.setDataCriacao(rs.getObject("dataCriacao", LocalDateTime.class));
+                doc.setDataUltimaEdicao(rs.getObject("dataUltimaEdicao", LocalDateTime.class));
+                doc.setDataProximaRevisao(rs.getObject("dataProximaRevisao", LocalDate.class));
                 doc.setNivelRevisao(rs.getInt("nivelRevisao"));
                 doc.setStatusRevisao(Status.valueOf(rs.getString("statusRevisao")));
                 doc.setCaderno(cad);
@@ -111,7 +136,7 @@ public class DocumentoDao {
     }
 
     public void atualizar(int id, Documento documento) {
-        String sql = "UPDATE documentos SET titulo = ?, previa = ?, conteudo = ?, dataProximaRevisao = ?, nivelRevisao = ?, statusRevisao = ?, idCadernoFK = ? WHERE idDocumento = ?";
+        String sql = "UPDATE documentos SET titulo = ?, previa = ?, conteudo = ?, idCadernoFK = ? WHERE idDocumento = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);) {
@@ -119,11 +144,8 @@ public class DocumentoDao {
             ps.setString(1, documento.getTitulo());
             ps.setString(2, documento.getPrevia());
             ps.setString(3, documento.getConteudo());
-            ps.setDate(4, documento.getDataProximaRevisao());
-            ps.setInt(5, documento.getNivelRevisao());
-            ps.setString(6, documento.getStatusRevisao().name());
-            ps.setInt(7, documento.getCaderno().getIdCaderno());
-            ps.setInt(8, id);
+            ps.setInt(4, documento.getCaderno().getIdCaderno());
+            ps.setInt(5, id);
 
             ps.executeUpdate();
             System.out.println("Documento atualizado." + id);
@@ -176,10 +198,10 @@ public class DocumentoDao {
 
                 documento.setIdDocumento(rs.getInt("idDocumento"));
                 documento.setTitulo(rs.getString("titulo"));
-                documento.setConteudo(rs.getString("conteudo"));
-                documento.setDataCriacao(rs.getDate("dataCriacao"));
-                documento.setDataUltimaEdicao(rs.getDate("dataUltimaEdicao"));
-                documento.setDataProximaRevisao(rs.getDate("dataProximaRevisao"));
+                documento.setConteudo(rs.getString("previa"));
+                documento.setDataCriacao(rs.getObject("dataCriacao", LocalDateTime.class));
+                documento.setDataUltimaEdicao(rs.getObject("dataUltimaEdicao", LocalDateTime.class));
+                documento.setDataProximaRevisao(rs.getObject("dataProximaRevisao", LocalDate.class));
                 documento.setNivelRevisao(rs.getInt("nivelRevisao"));
                 documento.setStatusRevisao(Status.valueOf(rs.getString("statusRevisao")));
                 documento.setCaderno(caderno);
@@ -191,7 +213,79 @@ public class DocumentoDao {
         }
         return documentosUsuario;
     }
-}
+
+    public void atualizarRevisao(int id, int nivel, LocalDate data) {
+        String sql = "UPDATE documentos SET nivelRevisao = ?, dataProximaRevisao = ? WHERE idDocumento = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);) {
+
+
+            ps.setInt(1, nivel);
+            ps.setObject(2, data);
+            ps.setInt(3, id);
+
+            ps.executeUpdate();
+            System.out.println("Documento atualizado - atualizarRevisao: " + id);
+
+        } catch (SQLException e) {
+        throw new RuntimeException("Erro ao atualizar - atualizarRevisao: " + e.getMessage());
+        }
+    }
+
+    public void atualizarData(int id, LocalDate data) {
+        String sql = "UPDATE documentos SET dataProximaRevisao = ? WHERE idDocumento = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setObject(1, data);
+            ps.setInt(2, id);
+
+            ps.executeUpdate();
+            System.out.println("Documento atualizado - atualizarData: " + id);
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao atualizar - atualizarData: " + e.getMessage());
+        }
+    }
+
+    public void atualizarStatus(int id, Status status) {
+        String sql = "UPDATE documentos SET statusRevisao = ? WHERE idDocumento = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setString(1, String.valueOf(status));
+            ps.setInt(2, id);
+
+            ps.executeUpdate();
+            System.out.println("Documento atualizado - atualizarStatus: " + id);
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao atualizar - atualizarStatus: " + e.getMessage());
+        }
+    }
+
+    public void atualizarRevisaoStatus(int id, int nivel, LocalDate data, Status status) {
+        String sql = "UPDATE documentos SET nivelRevisao = ?, dataProximaRevisao = ?, statusRevisao = ? WHERE idDocumento = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setInt(1, nivel);
+            ps.setObject(2, data);
+            ps.setString(3, String.valueOf(status));
+            ps.setInt(4, id);
+
+            ps.executeUpdate();
+            System.out.println("Documento atualizado - atualizarRevisaStatus: " + id);
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao atualizar - atualizarRevisaStatus: " + e.getMessage());
+        }
+    }
+
 
 /*
     // ==============================   TERMINAR DEPOIS   ==============================
@@ -247,3 +341,5 @@ public class DocumentoDao {
     }
 }
 */
+
+}

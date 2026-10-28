@@ -1,6 +1,7 @@
 package com.revisaoWeb.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Documento {
 
@@ -8,20 +9,20 @@ public class Documento {
     private String titulo;
     private String previa;
     private String conteudo;
-    private Date dataCriacao;
-    private Date dataUltimaEdicao;
-    private Date dataProximaRevisao;
+    private LocalDateTime dataCriacao;
+    private LocalDateTime dataUltimaEdicao;
+    private LocalDate dataProximaRevisao;
     private int nivelRevisao;
     private Status statusRevisao;
     private Caderno caderno;
 
     public Documento() {}
 
-    public Documento(int idDocumento, Date dataCriacao, Date dataUltimaEdicao, Date dataProximaRevisao, int nivelRevisao, Caderno caderno) {
+    public Documento(int idDocumento, LocalDateTime dataCriacao, LocalDateTime dataUltimaEdicao, LocalDate dataProximaRevisao, int nivelRevisao, Caderno caderno) {
         this(idDocumento, null, null, null, dataCriacao, dataUltimaEdicao, dataProximaRevisao, nivelRevisao, null, caderno);
     }
 
-    public Documento(int idDocumento, String titulo, String previa, String conteudo, Date dataCriacao, Date dataUltimaEdicao, Date dataProximaRevisao, int nivelRevisao, Status statusRevisao, Caderno caderno) {
+    public Documento(int idDocumento, String titulo, String previa, String conteudo, LocalDateTime dataCriacao, LocalDateTime dataUltimaEdicao, LocalDate dataProximaRevisao, int nivelRevisao, Status statusRevisao, Caderno caderno) {
         setIdDocumento(idDocumento);
         setTitulo(titulo);
         setPrevia(previa);
@@ -66,27 +67,27 @@ public class Documento {
         this.conteudo = conteudo;
     }
 
-    public Date getDataCriacao() {
+    public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(Date dataCriacao) {
+    public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
-    public Date getDataUltimaEdicao() {
+    public LocalDateTime getDataUltimaEdicao() {
         return dataUltimaEdicao;
     }
 
-    public void setDataUltimaEdicao(Date dataUltimaEdicao) {
+    public void setDataUltimaEdicao(LocalDateTime dataUltimaEdicao) {
         this.dataUltimaEdicao = dataUltimaEdicao;
     }
 
-    public Date getDataProximaRevisao() {
+    public LocalDate getDataProximaRevisao() {
         return dataProximaRevisao;
     }
 
-    public void setDataProximaRevisao(Date dataProximaRevisao) {
+    public void setDataProximaRevisao(LocalDate dataProximaRevisao) {
         this.dataProximaRevisao = dataProximaRevisao;
     }
 
