@@ -1,10 +1,8 @@
 package com.revisaoWeb.service;
 
 import com.revisaoWeb.dao.UsuarioDao;
-import com.revisaoWeb.dto.LoginRespostaDto;
 import com.revisaoWeb.dto.UsuarioReqDto;
 import com.revisaoWeb.model.Usuario;
-import com.revisaoWeb.security.JwtService;
 
 import java.util.List;
 
@@ -44,10 +42,9 @@ public class UsuarioService {
         usuarioDao.deletar(id);
     }
 
-    public LoginRespostaDto logar(String email, String senha) {
+    public UsuarioReqDto logar(String email, String senha) {
         Usuario usuario = usuarioDao.logar(email);
-        JwtService jwtService = new JwtService();
-        String token;
+        UsuarioReqDto usuarioReqDto = new UsuarioReqDto(usuario);
 
         if (usuario == null) {
             throw new RuntimeException("Usuário ou senha inválidos.");
@@ -57,9 +54,7 @@ public class UsuarioService {
             throw new RuntimeException("Usuário ou senha inválidos.");
         }
 
-        token = jwtService.gerarToken(usuario.getIdUsuario());
-
-        return new LoginRespostaDto(usuario.getIdUsuario(), usuario.getUsuario(), usuario.getEmail(), token);
+        return usuarioReqDto;
     }
 
     public boolean verificarEmail(String email) {

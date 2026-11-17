@@ -1,10 +1,10 @@
 package com.revisaoWeb.controller;
 
-import com.revisaoWeb.dto.LoginRespostaDto;
 import com.revisaoWeb.model.Usuario;
 import com.revisaoWeb.service.UsuarioService;
 import com.revisaoWeb.dto.LoginDto;
 import com.revisaoWeb.dto.EmailReqDto;
+import com.revisaoWeb.dto.UsuarioReqDto;
 
 import java.util.List;
 
@@ -54,7 +54,7 @@ public class UsuarioController {
     }
 
     @PostMapping ("/login")
-    public LoginRespostaDto login(@RequestBody LoginDto loginDto) {
+    public UsuarioReqDto login(@RequestBody LoginDto loginDto) {
         String email = loginDto.getEmail();
         String senha = loginDto.getSenha();
         return usuarioService.logar(email, senha);
