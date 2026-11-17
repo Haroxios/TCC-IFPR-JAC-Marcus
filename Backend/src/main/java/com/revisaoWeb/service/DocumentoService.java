@@ -35,8 +35,7 @@ public class DocumentoService {
     }
 
     public Documento listarId(int id) {
-        Documento documento = documentoDao.listarId(id);
-        return documento;
+        return documentoDao.listarId(id);
     }
 
     public void atualizar(int id, Documento documento) {
@@ -52,7 +51,7 @@ public class DocumentoService {
         List<Documento> documentosList = documentoDao.listarDocumentosUsuario(idCadernos);
 
         for (Documento n : documentosList) {
-            verificarDocumentoAtrasado(n.getIdDocumento(), n.getDataProximaRevisao());
+            verificarDocumentoAtrasado(n);
         }
 
         return documentosList;
@@ -74,7 +73,7 @@ public class DocumentoService {
         verificarExistenciaDocumento(id);
         Documento documento = documentoDao.listarId(id);
 
-        if (!documento.getStatusRevisao().name().equals("ANDAMENTO")) {
+        if (!documento.getStatusRevisao().name().equals("ANDAMENTO") || !documento.getStatusRevisao().name().equals("PENDENTE")) {
             throw new RuntimeException();
         }
 
@@ -82,15 +81,14 @@ public class DocumentoService {
         int novoNivel = NivelRevisao.proximoNivel(nivelAtual);
 
         int dias = NivelRevisao.qntProximoDia(novoNivel);
-        LocalDate novaData = documento.getDataProximaRevisao().plusDays(dias);
+        LocalDate novaData = LocalDate.now().plusDays(dias);
 
-        documentoDao.atualizarRevisao(id, novoNivel, novaData);
+        documentoDao.atualizarRevisaoStatus(id, novoNivel, novaData, Status.ANDAMENTO);
     }
 
     public void adiar(int id) {
         verificarExistenciaDocumento(id);
-        Documento documento = documentoDao.listarId(id);
-        LocalDate novaData = documento.getDataProximaRevisao().plusDays(1);
+        LocalDate novaData = LocalDate.now().plusDays(1);
         documentoDao.atualizarData(id, novaData);
     }
 
@@ -105,21 +103,37 @@ public class DocumentoService {
     }
 
     public void reativar(int id) {
+        Documento doc = verificarExistenciaDocumento(id);
+
         LocalDate data = LocalDate.now();
+
         documentoDao.atualizarRevisaoStatus(id, 1, data, Status.ANDAMENTO);
     }
 
-    private void verificarExistenciaDocumento(int id) {
-        if (documentoDao.listarId(id) == null) {
+    private Documento verificarExistenciaDocumento(int id) {
+        Documento doc = documentoDao.listarId(id);
+
+        if (doc == null) {
             throw new RuntimeException();
         }
+
+        return doc;
     }
 
-    private void verificarDocumentoAtrasado(int id, LocalDate dataRevisao) {
-        int atraso = dataRevisao.compareTo(LocalDate.now());
+    // um métoodo para trazer o docmento
 
-        if (atraso < 0) {
-            documentoDao.atualizarStatus(id, Status.PENDENTE);
+    private Documento verificarDocumentoAtrasado(Documento documento) {
+        Documento doc = new Documento();
+        int atraso = documento.getDataProximaRevisao().compareTo(LocalDate.now());
+
+        if (!documento.getStatusRevisao().equals(Status.CONCLUIDO)) {
+            return doc;
         }
+
+        if (atraso <= 0) {
+            doc.setStatusRevisao(Status.PENDENTE);
+        }
+
+        return doc;
     }
 }

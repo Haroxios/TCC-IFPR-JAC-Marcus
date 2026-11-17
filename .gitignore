@@ -14,7 +14,8 @@ target/
 .DS_Store
 
 Thumbs.db
-application.properties
+
 application.yml
 
 db.properties
+jwt.properties
