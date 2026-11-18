@@ -8,40 +8,50 @@ function logar() {
     const inpSenha = document.getElementById('inp_senha')
 
     btnLogin.addEventListener('click', async () => {
-        const login = await verificarUsuario(inpEmail.value, inpSenha.value)
+        const email = inpEmail.value.trim()
+        const senha = inpSenha.value
 
-        if (login.idUsuario != null) {
-            sessionStorage.setItem('ursLogado', login.idUsuario)
+        if (!email || !senha) {
+            mostrarAviso('Preencha todos os campos.')
+            return
+        }
+
+        const login = await verificarUsuario(email, senha)
+
+        if (login && login.idUsuario != null) {
+            sessionStorage.setItem('usuarioLogado', login.idUsuario)
             window.location.href = './menu/menu.html'
+        } else {
+            mostrarAviso('Usuário ou senha inválidos.')
         }
     })
 }
 
 async function verificarUsuario(email, senha) {
     const url = 'http://localhost:8080/api/usuario/login'
-    const usr = {
-        email: email,
-        senha: senha
-    }
-    
+
     try {
         const res = await fetch(url, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(usr),
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email, senha: senha })
         })
-        
+
         if (!res.ok) {
-            throw new Error(`Erro HTTP: ${res.status}`)
+            return null
         }
-        
-        const texto = await res.json()
-        return texto
+
+        return await res.json()
     }
     catch (e) {
         console.log('Erro: ', e.message)
+        return null
     }
+}
 
+function mostrarAviso(texto) {
+    const aviso = document.getElementById('p_aviso')
+    aviso.textContent = texto
 }
 
 init()

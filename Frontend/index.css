@@ -1,7 +1,8 @@
 * {
     margin: 0;
     padding: 0;
-    font-family: 'Inter', sans-serif
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
 }
 
 /*display geral*/
@@ -26,7 +27,6 @@ input, #cont_pagina {
 #cont_nomeProjeto, #cont_dadosLogin, input, #cont_apresentacao, #cont_recuperarSenha {
     color: #F8FAFC;
 } 
-
 
 #container {
     height: 100vh;
@@ -95,8 +95,6 @@ input, #cont_pagina {
     font-size: 25px;
 }
 
-
-
 #p1 {
     font-size: 30px;
     font-weight: bold;
@@ -108,6 +106,13 @@ input, #cont_pagina {
     color: #94A3B8;
 }
 
+#p_aviso {
+    min-height: 20px;
+    margin-top: 10px;
+    font-size: 15px;
+    color: #F87171;
+    text-align: center;
+}
 
 #btn_entrar {
     height: 60px;
@@ -124,9 +129,6 @@ input, #cont_pagina {
     background-color: #49c8ff
 }
 
-
-
-
 a {
     color: #38BDF8;
     text-decoration: none;
@@ -136,14 +138,12 @@ a:active {
     color:#49c8ff
 }
 
-
-
 input {
     height: 60px;
     width: 100%;
     background-color: #0F172A;
     font-size: 20px;
     padding-left: 15px;
-    text-align: center
+    text-align: center;
+    color: #F8FAFC;
 }
-

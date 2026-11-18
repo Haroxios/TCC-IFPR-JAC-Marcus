@@ -5,7 +5,6 @@ import com.revisaoWeb.dao.CadernoDao;
 
 import java.util.List;
 
-import com.revisaoWeb.model.Compartilhamento;
 import org.springframework.stereotype.Service;
 
 @Service

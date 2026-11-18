@@ -35,6 +35,7 @@ public class UsuarioService {
     }
 
     public void atualizar(int id, Usuario usuario) {
+        usuario.setSenha(criptografarSenha(usuario.getSenha()));
         usuarioDao.atualizar(id, usuario);
     }
 

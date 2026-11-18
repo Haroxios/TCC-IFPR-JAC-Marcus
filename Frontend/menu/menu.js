@@ -1,66 +1,81 @@
+// caches usados pelas funções de filtro/ordenação
+let documentosCache = []
+let cadernosCache = []
+let tagsCache = []
+let tagDocsCache = []
+
 async function init() {
+    const id = sessionStorage.getItem('usuarioLogado')
 
-    
-    const id = sessionStorage.getItem('ursLogado')
-    //const id = 1
-
-    if(!id) {
+    if (!id) {
         window.location.href = '../index.html'
+        return
     }
 
-    buscarUsuario(id)
-    const cadernos = await buscarCadernos(id) 
-    const documentos = await buscarDocumentos(cadernos.map(c => c.idCaderno))
-    
-    //buscar Tags
+    await buscarUsuario(id)
+
+    const cadernos = await buscarCadernos(id)
+    if (!cadernos) {
+        return
+    }
+    cadernosCache = cadernos
+
+    const idCadernos = cadernos.map(c => c.idCaderno)
+
+    const [documentos, tags, tagDocs] = await Promise.all([
+        buscarDocumentos(idCadernos),
+        buscarTags(),
+        buscarTagDocs()
+    ])
+
+    if (!documentos) {
+        return
+    }
+
+    documentosCache = documentos
+    tagsCache = tags || []
+    tagDocsCache = tagDocs || []
 
     renderizar(documentos)
     funcionalidades()
-
-}
-
-function dados() {
-    
 }
 
 function renderizar(documentos) {
-
-    //console.log(documentos)
     rendCards(documentos)
-    
+
     const docListar = documentos.map(d => ({
         idDocumento: d.idDocumento,
-        idCaderno: d.caderno.idCaderno,
+        idCaderno: d.caderno ? d.caderno.idCaderno : null,
         titulo: d.titulo,
-        caderno: d.caderno.caderno,
-        dataUltimaEdicao: d.dataUltimaEdicao,
+        caderno: nomeCaderno(d.caderno ? d.caderno.idCaderno : null),
+        dataProximaRevisao: d.dataProximaRevisao,
+        statusRevisao: d.statusRevisao
     }))
 
-    //console.log(docListar)
     rendProximasRev(docListar)
-    rendCadernos(docListar)
-
+    rendCadernos(cadernosCache)
 }
 
+function nomeCaderno(idCaderno) {
+    const caderno = cadernosCache.find(c => c.idCaderno === idCaderno)
+    return caderno ? caderno.caderno : ''
+}
 
 function funcionalidades() {
-
-    botoes()
-/*
-    pesquisa()
-    sair()*/
-
+    criarDocumento()
+    pesquisar()
+    ordenar()
+    filtrarStatus()
+    novaPasta()
+    sair()
 }
-
-
 
 /*
 -----------------------------------------------------------
 --------------     Procura os dados     -------------------
----------------------- mudar dps-  ------------------------
+-----------------------------------------------------------
 */
 
-//vai ser trocado para pegar na sessão do navegador
 async function buscarUsuario(id) {
     const usr = document.getElementById('h1_usuario')
     const url = `http://localhost:8080/api/usuario/${id}`
@@ -72,9 +87,8 @@ async function buscarUsuario(id) {
             throw new Error(`Erro HTTP: ${res.status}`)
         }
 
-        const usuario = await res.json()    
-        usr.innerHTML = usuario.usuario
-
+        const usuario = await res.json()
+        usr.textContent = usuario.usuario
     }
     catch (e) {
         console.log('Erro: ', e.message)
@@ -87,46 +101,74 @@ async function buscarCadernos(id) {
     try {
         const res = await fetch(url, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' }
         })
 
         if (!res.ok) {
             throw new Error(`Erro HTTP: ${res.status}`)
         }
 
-        const cadernosUsuario = await res.json()
-        return cadernosUsuario
-
+        return await res.json()
     }
     catch (e) {
-        console.log('Erro: ', e.message)  
+        console.log('Erro: ', e.message)
+        return null
     }
 }
 
 async function buscarDocumentos(idCadernos) {
-    const url = `http://localhost:8080/api/documento/DocsUsr`
+    const url = 'http://localhost:8080/api/documento/DocsUsr'
 
     try {
         const res = await fetch(url, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(idCadernos)
         })
 
-        if(!res.ok) {
+        if (!res.ok) {
             throw new Error(`Erro HTTP: ${res.status}`)
         }
 
-        const documentosUsuario = await res.json()
-        return documentosUsuario
+        return await res.json()
     }
     catch (e) {
         console.log('Erro: ', e.message)
+        return null
     }
 }
 
+async function buscarTags() {
+    try {
+        const res = await fetch('http://localhost:8080/api/tag')
 
+        if (!res.ok) {
+            throw new Error(`Erro HTTP: ${res.status}`)
+        }
 
+        return await res.json()
+    }
+    catch (e) {
+        console.log('Erro: ', e.message)
+        return []
+    }
+}
+
+async function buscarTagDocs() {
+    try {
+        const res = await fetch('http://localhost:8080/api/tagDoc')
+
+        if (!res.ok) {
+            throw new Error(`Erro HTTP: ${res.status}`)
+        }
+
+        return await res.json()
+    }
+    catch (e) {
+        console.log('Erro: ', e.message)
+        return []
+    }
+}
 
 /*
 -----------------------------------------------------------
@@ -134,92 +176,124 @@ async function buscarDocumentos(idCadernos) {
 -----------------------------------------------------------
 */
 
+function limparCards() {
+    document.querySelectorAll('#cont_documentos .card_doc').forEach(el => el.remove())
+}
+
+function tagsDoDocumento(idDocumento) {
+    return tagDocsCache
+        .filter(td => td.documento && td.documento.idDocumento === idDocumento)
+        .map(td => {
+            const tag = tagsCache.find(t => t.idTag === (td.tag ? td.tag.idTag : null))
+            return tag ? tag.tag : null
+        })
+        .filter(nome => nome)
+}
+
 function rendCards(documentos) {
     const contDocumentos = document.getElementById('cont_documentos')
     const fragmento = document.createDocumentFragment()
 
-    documentos.forEach (item => {
+    if (!documentos || documentos.length === 0) {
+        const vazio = document.createElement('p')
+        vazio.className = 'msg_vazio'
+        vazio.textContent = 'Nenhum documento encontrado.'
+        fragmento.appendChild(vazio)
+    }
+
+    documentos.forEach(item => {
         const card = document.createElement('a')
-        card.id = 'a_cards'
-        card.href = `/documento/documento.html?id=${item.idDocumento}`
+        card.className = 'card_doc'
+        card.href = `../documento/documento.html?id=${item.idDocumento}`
 
         const contDocumento = document.createElement('div')
-        contDocumento.id = 'cont_documento' 
+        contDocumento.className = 'cont_documento'
 
         const contStatus = document.createElement('div')
+        contStatus.className = 'cont_status'
         const statusAtual = document.createElement('div')
-        contStatus.id = 'cont_status'
-        statusAtual.id = 'cont_statusAtual'
+        statusAtual.className = 'cont_statusAtual'
+        statusAtual.classList.add(`status_${(item.statusRevisao || '').toLowerCase()}`)
+        contStatus.appendChild(statusAtual)
 
         const contTitulo = document.createElement('div')
+        contTitulo.className = 'cont_titulo'
         const titulo = document.createElement('h1')
-        contTitulo.id = 'cont_titulo'
-        titulo.id = 'tituloDoc'
+        titulo.className = 'tituloDoc'
+        titulo.textContent = item.titulo || '(sem título)'
+        contTitulo.appendChild(titulo)
 
         const contTrecho = document.createElement('div')
+        contTrecho.className = 'cont_trecho'
         const previa = document.createElement('p')
-        contTrecho.id = 'cont_trecho'
-        previa.id = 'trechoDoc'
-
-        const contTags = document.createElement('div')
-        const contTag = document.createElement('div')
-        const tag = document.createElement('p')
-        contTags.id = 'cont_tags'
-        contTag.id = 'cont_tag'
-        tag.id = 'tagDoc'
-
-        titulo.textContent = item.titulo
-        previa.textContent = item.conteudo
-
-        contTitulo.appendChild(titulo)
+        previa.className = 'trechoDoc'
+        previa.textContent = item.conteudo || item.previa || ''
         contTrecho.appendChild(previa)
 
+        const contTags = document.createElement('div')
+        contTags.className = 'cont_tags'
+        tagsDoDocumento(item.idDocumento).forEach(nome => {
+            const contTag = document.createElement('div')
+            contTag.className = 'cont_tag'
+            const tag = document.createElement('p')
+            tag.className = 'tagDoc'
+            tag.textContent = `# ${nome}`
+            contTag.appendChild(tag)
+            contTags.appendChild(contTag)
+        })
+
+        contDocumento.appendChild(contStatus)
         contDocumento.appendChild(contTitulo)
         contDocumento.appendChild(contTrecho)
+        contDocumento.appendChild(contTags)
 
         card.appendChild(contDocumento)
-
         fragmento.appendChild(card)
     })
-    
+
     contDocumentos.appendChild(fragmento)
 }
 
-
-function rendProximasRev(docListar) {
+function rendProximasRev(documentos) {
     const proximasRevisoes = document.getElementById('cont_proximasRevisoes')
     const fragmento = document.createDocumentFragment()
 
-    docListar.forEach (e => {
+    const proximas = documentos
+        .filter(d => d.statusRevisao !== 'CONCLUIDO' && d.statusRevisao !== 'DESATIVADO')
+        .sort((a, b) => (a.dataProximaRevisao || '').localeCompare(b.dataProximaRevisao || ''))
+        .slice(0, 10)
+
+    proximas.forEach(e => {
         const revisaoDoc = document.createElement('a')
         revisaoDoc.className = 'link_menuEsquerdo'
-        revisaoDoc.href = `/documento/documento.html?id=${e.idDocumento}`
-        revisaoDoc.innerHTML = e.titulo
-
+        revisaoDoc.href = `../documento/documento.html?id=${e.idDocumento}`
+        revisaoDoc.textContent = e.titulo
         fragmento.appendChild(revisaoDoc)
     })
 
     proximasRevisoes.appendChild(fragmento)
-
 }
 
-
-function rendCadernos(docListar) {
-
-    // DEFINIR MELHOR DEPOIS O QUE QUERO COM ISTO
-    
-    /*const listarCadernos = document.getElementById('cont_listaCadernos')
+function rendCadernos(cadernos) {
+    const listaCadernos = document.getElementById('cont_listaCadernos')
     const fragmento = document.createDocumentFragment()
 
-    listarCadernos.forEach (e => {
+    cadernos.forEach(c => {
         const caderno = document.createElement('a')
         caderno.className = 'link_menuEsquerdo'
-        caderno.
+        caderno.href = '#'
+        caderno.textContent = c.caderno
 
+        caderno.addEventListener('click', (e) => {
+            e.preventDefault()
+            limparCards()
+            rendCards(documentosCache.filter(d => d.caderno && d.caderno.idCaderno === c.idCaderno))
+        })
 
+        fragmento.appendChild(caderno)
+    })
 
-    })*/
-
+    listaCadernos.appendChild(fragmento)
 }
 
 /*
@@ -228,37 +302,144 @@ function rendCadernos(docListar) {
 -----------------------------------------------------------
 */
 
-function botoes() {
-
-    criarDocumento()
-}
-
 async function criarDocumento() {
-
     const criarDoc = document.getElementById('btn_criar')
 
-    criarDoc.addEventListener('click', async ()  => {
+    criarDoc.addEventListener('click', async () => {
+        if (!cadernosCache.length) {
+            alert('Você precisa de um caderno para criar um documento.')
+            return
+        }
 
         const url = 'http://localhost:8080/api/documento'
+        const novoDoc = {
+            titulo: 'Novo documento',
+            conteudo: '',
+            caderno: { idCaderno: cadernosCache[0].idCaderno }
+        }
 
         try {
-            const response = await fetch(url)
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(novoDoc)
+            })
 
             if (!response.ok) {
-                throw new Error(`Erro HTTP: ${res.status}`)
+                throw new Error(`Erro HTTP: ${response.status}`)
             }
 
-
-
+            await response.text()
+            window.location.reload()
         }
         catch (e) {
-            console.log('Erro: ' +e.message)
+            console.log('Erro: ' + e.message)
+            alert('Não foi possível criar o documento.')
         }
-
-        window.location.href = `../documento/documento.html?id=${id}`
     })
 }
 
+function pesquisar() {
+    const inpProcurar = document.getElementById('inp_procurar')
+    const btnProcurar = document.getElementById('btn_procurar')
 
+    const aoPesquisar = () => {
+        const termo = inpProcurar.value.trim().toLowerCase()
+        const filtrados = documentosCache.filter(d =>
+            (d.titulo || '').toLowerCase().includes(termo)
+        )
+        limparCards()
+        rendCards(filtrados)
+    }
+
+    btnProcurar.addEventListener('click', aoPesquisar)
+    inpProcurar.addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') {
+            aoPesquisar()
+        }
+    })
+}
+
+function ordenar() {
+    const btnOrdenar = document.getElementById('btn_ordenar')
+    let crescente = true
+
+    btnOrdenar.addEventListener('click', () => {
+        const ordenados = [...documentosCache].sort((a, b) => {
+            const da = a.dataProximaRevisao || ''
+            const db = b.dataProximaRevisao || ''
+            return crescente ? da.localeCompare(db) : db.localeCompare(da)
+        })
+
+        crescente = !crescente
+        limparCards()
+        rendCards(ordenados)
+    })
+}
+
+function filtrarStatus() {
+    const btnFiltrar = document.getElementById('btn_filtrar')
+    const statuses = ['TODOS', 'ANDAMENTO', 'PENDENTE', 'CONCLUIDO', 'DESATIVADO']
+    let indice = 0
+
+    btnFiltrar.addEventListener('click', () => {
+        indice = (indice + 1) % statuses.length
+        const status = statuses[indice]
+
+        btnFiltrar.textContent = status === 'TODOS' ? 'Filtrar' : `Filtro: ${status}`
+
+        const filtrados = status === 'TODOS'
+            ? documentosCache
+            : documentosCache.filter(d => d.statusRevisao === status)
+
+        limparCards()
+        rendCards(filtrados)
+    })
+}
+
+function novaPasta() {
+    const btnNovaPasta = document.getElementById('btn_novaPasta')
+
+    btnNovaPasta.addEventListener('click', async () => {
+        const nome = prompt('Nome da nova pasta:')
+        if (!nome || !nome.trim()) {
+            return
+        }
+
+        const id = sessionStorage.getItem('usuarioLogado')
+
+        try {
+            const res = await fetch('http://localhost:8080/api/caderno', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    caderno: nome.trim(),
+                    usuario: { idUsuario: Number(id) }
+                })
+            })
+
+            if (!res.ok) {
+                throw new Error(`Erro HTTP: ${res.status}`)
+            }
+
+            await res.text()
+            window.location.reload()
+        }
+        catch (e) {
+            console.log('Erro: ', e.message)
+            alert('Não foi possível criar a pasta.')
+        }
+    })
+}
+
+function sair() {
+    const btnSair = document.getElementById('btn_sair')
+
+    btnSair.addEventListener('click', (e) => {
+        e.preventDefault()
+        sessionStorage.clear()
+        window.location.href = '../index.html'
+    })
+}
 
 init()
