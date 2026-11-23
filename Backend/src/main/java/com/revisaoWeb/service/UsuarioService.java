@@ -4,6 +4,7 @@ import com.revisaoWeb.dao.UsuarioDao;
 import com.revisaoWeb.dto.UsuarioReqDto;
 import com.revisaoWeb.model.Usuario;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -26,12 +27,24 @@ public class UsuarioService {
         usuarioDao.criar(usuario);
     }
 
-    public List<Usuario> listar() {
-        return usuarioDao.listar();
+    public List<UsuarioReqDto> listar() {
+        List<UsuarioReqDto> usuarios = new ArrayList<>();
+
+        for (Usuario u : usuarioDao.listar()) {
+            usuarios.add(new UsuarioReqDto(u));
+        }
+
+        return usuarios;
     }
 
-    public Usuario listarId(int id) {
-        return usuarioDao.listarId(id);
+    public UsuarioReqDto listarId(int id) {
+        Usuario usuario = usuarioDao.listarId(id);
+
+        if (usuario == null) {
+            return null;
+        }
+
+        return new UsuarioReqDto(usuario);
     }
 
     public void atualizar(int id, Usuario usuario) {
@@ -45,7 +58,6 @@ public class UsuarioService {
 
     public UsuarioReqDto logar(String email, String senha) {
         Usuario usuario = usuarioDao.logar(email);
-        UsuarioReqDto usuarioReqDto = new UsuarioReqDto(usuario);
 
         if (usuario == null) {
             throw new RuntimeException("Usuário ou senha inválidos.");
@@ -55,7 +67,7 @@ public class UsuarioService {
             throw new RuntimeException("Usuário ou senha inválidos.");
         }
 
-        return usuarioReqDto;
+        return new UsuarioReqDto(usuario);
     }
 
     public boolean verificarEmail(String email) {

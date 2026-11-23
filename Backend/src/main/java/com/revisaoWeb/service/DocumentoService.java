@@ -21,7 +21,9 @@ public class DocumentoService {
     }
 
     public void criar(Documento documento) {
-        documento.setNivelRevisao(0);
+        validarTitulo(documento.getTitulo());
+
+        documento.setNivelRevisao(NivelRevisao.nivelInicial());
         documento.setStatusRevisao(Status.ANDAMENTO);
         documento.setDataProximaRevisao(LocalDate.now().plusDays(1));
 
@@ -39,6 +41,8 @@ public class DocumentoService {
     }
 
     public void atualizar(int id, Documento documento) {
+        validarTitulo(documento.getTitulo());
+
         documento.setPrevia(gerarPrevia(documento.getConteudo()));
         documentoDao.atualizar(id, documento);
     }
@@ -70,12 +74,8 @@ public class DocumentoService {
     }
 
     public void revisar(int id) {
-        verificarExistenciaDocumento(id);
-        Documento documento = documentoDao.listarId(id);
-
-        if (!documento.getStatusRevisao().name().equals("ANDAMENTO") || !documento.getStatusRevisao().name().equals("PENDENTE")) {
-            throw new RuntimeException();
-        }
+        Documento documento = verificarExistenciaDocumento(id);
+        verificarEmRevisao(documento);
 
         int nivelAtual = documento.getNivelRevisao();
         int novoNivel = NivelRevisao.proximoNivel(nivelAtual);
@@ -87,9 +87,11 @@ public class DocumentoService {
     }
 
     public void adiar(int id) {
-        verificarExistenciaDocumento(id);
+        Documento documento = verificarExistenciaDocumento(id);
+        verificarEmRevisao(documento);
+
         LocalDate novaData = LocalDate.now().plusDays(1);
-        documentoDao.atualizarData(id, novaData);
+        documentoDao.atualizarRevisaoStatus(id, documento.getNivelRevisao(), novaData, Status.ANDAMENTO);
     }
 
     public void desativar(int id) {
@@ -105,9 +107,27 @@ public class DocumentoService {
     public void reativar(int id) {
         Documento doc = verificarExistenciaDocumento(id);
 
+        if (!doc.getStatusRevisao().equals(Status.CONCLUIDO) && !doc.getStatusRevisao().equals(Status.DESATIVADO)) {
+            throw new RuntimeException();
+        }
+
         LocalDate data = LocalDate.now();
 
-        documentoDao.atualizarRevisaoStatus(id, 1, data, Status.ANDAMENTO);
+        documentoDao.atualizarRevisaoStatus(id, NivelRevisao.nivelInicial(), data, Status.ANDAMENTO);
+    }
+
+    private void verificarEmRevisao(Documento documento) {
+        Status status = documento.getStatusRevisao();
+
+        if (!status.equals(Status.ANDAMENTO) && !status.equals(Status.PENDENTE)) {
+            throw new RuntimeException();
+        }
+    }
+
+    private void validarTitulo(String titulo) {
+        if (titulo == null || titulo.isBlank()) {
+            throw new RuntimeException("Título é um campo obrigatório.");
+        }
     }
 
     private Documento verificarExistenciaDocumento(int id) {
@@ -120,20 +140,17 @@ public class DocumentoService {
         return doc;
     }
 
-    // um métoodo para trazer o docmento
+    // um métoodo para trazer o documento
+    private void verificarDocumentoAtrasado(Documento documento) {
+        if (!documento.getStatusRevisao().equals(Status.ANDAMENTO)) {
+            return;
+        }
 
-    private Documento verificarDocumentoAtrasado(Documento documento) {
-        Documento doc = new Documento();
         int atraso = documento.getDataProximaRevisao().compareTo(LocalDate.now());
 
-        if (!documento.getStatusRevisao().equals(Status.CONCLUIDO)) {
-            return doc;
-        }
-
         if (atraso <= 0) {
-            doc.setStatusRevisao(Status.PENDENTE);
+            documento.setStatusRevisao(Status.PENDENTE);
+            documentoDao.atualizarStatus(documento.getIdDocumento(), Status.PENDENTE);
         }
-
-        return doc;
     }
 }

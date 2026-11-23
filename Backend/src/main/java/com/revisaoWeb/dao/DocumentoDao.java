@@ -155,10 +155,15 @@ public class DocumentoDao {
     }
 
     public void deletar(int id) {
+        String sqlTagDoc = "DELETE FROM tag_doc WHERE idDocumentoFK = ?";
         String sql = "DELETE FROM documentos WHERE idDocumento = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement psTagDoc = conn.prepareStatement(sqlTagDoc);
              PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            psTagDoc.setInt(1, id);
+            psTagDoc.executeUpdate();
 
             ps.setInt(1, id);
             ps.executeUpdate();

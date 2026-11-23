@@ -18,7 +18,7 @@
 }
 
 /*cor geral - branco*/
-#cont_documento, #cont_menuSuperior, #cont_edicaoTexto, #cont_informacoesDocumento, #cont_comentarios {
+#cont_documento, #cont_menuSuperior, #cont_edicaoTexto, #cont_informacoesDocumento {
     color: #F8FAFC;
 }
 
@@ -100,61 +100,7 @@
 }
 
 #cont_informacoesDocumento {
-    height: 20%;
+    height: 70%;
     margin: 5px;
-}
-
-#cont_comentarios {
-    height: 55%;
-    margin: 5px;
-}
-
-/* tags */
-#cont_tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin: 5px 0;
-}
-
-.tag {
-    background-color: #1C3134;
-    color: #17A2B8;
-    padding: 3px 8px;
-    border-radius: 10px;
-    font-size: 13px;
-}
-
-.tag_vazia {
-    color: #94A3B8;
-    font-size: 13px;
-}
-
-/* dialog de compartilhamento */
-#dial_compartilhamento {
-    border: 3px solid #334155;
-    border-radius: 15px;
-    background-color: #1E293B;
-    color: #F8FAFC;
-    padding: 20px;
-}
-
-#dial_compartilhamento::backdrop {
-    background-color: rgba(15, 23, 42, 0.7);
-}
-
-#container_dialog {
-    display: flex;
-    flex-direction: column;
     gap: 10px;
-    min-width: 300px;
-}
-
-#container_dialog input {
-    height: 40px;
-    border: 3px solid #334155;
-    border-radius: 10px;
-    background-color: #0F172A;
-    color: #F8FAFC;
-    padding-left: 10px;
 }

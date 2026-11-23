@@ -32,12 +32,12 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public List<Usuario> listar() {
+    public List<UsuarioReqDto> listar() {
         return usuarioService.listar();
     }
 
     @GetMapping ("/{id}")
-    public Usuario listarId(@PathVariable("id") int id) {
+    public UsuarioReqDto listarId(@PathVariable("id") int id) {
         return usuarioService.listarId(id);
     }
 

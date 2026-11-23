@@ -1,8 +1,6 @@
 // caches usados pelas funções de filtro/ordenação
 let documentosCache = []
 let cadernosCache = []
-let tagsCache = []
-let tagDocsCache = []
 
 async function init() {
     const id = sessionStorage.getItem('usuarioLogado')
@@ -14,27 +12,34 @@ async function init() {
 
     await buscarUsuario(id)
 
-    const cadernos = await buscarCadernos(id)
+    let cadernos = await buscarCadernos(id)
     if (!cadernos) {
         return
+    }
+
+    if (cadernos.length === 0) {
+        const criado = await criarCadernoPadrao(id)
+        if (!criado) {
+            return
+        }
+
+        cadernos = await buscarCadernos(id)
+        if (!cadernos) {
+            return
+        }
     }
     cadernosCache = cadernos
 
     const idCadernos = cadernos.map(c => c.idCaderno)
 
-    const [documentos, tags, tagDocs] = await Promise.all([
-        buscarDocumentos(idCadernos),
-        buscarTags(),
-        buscarTagDocs()
-    ])
+    const documentos = await buscarDocumentos(idCadernos)
 
     if (!documentos) {
         return
     }
 
+    documentos.sort((a, b) => (a.titulo || '').localeCompare(b.titulo || ''))
     documentosCache = documentos
-    tagsCache = tags || []
-    tagDocsCache = tagDocs || []
 
     renderizar(documentos)
     funcionalidades()
@@ -66,7 +71,6 @@ function funcionalidades() {
     pesquisar()
     ordenar()
     filtrarStatus()
-    novaPasta()
     sair()
 }
 
@@ -138,35 +142,27 @@ async function buscarDocumentos(idCadernos) {
     }
 }
 
-async function buscarTags() {
+async function criarCadernoPadrao(id) {
     try {
-        const res = await fetch('http://localhost:8080/api/tag')
+        const res = await fetch('http://localhost:8080/api/caderno', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                caderno: 'Geral',
+                usuario: { idUsuario: Number(id) }
+            })
+        })
 
         if (!res.ok) {
             throw new Error(`Erro HTTP: ${res.status}`)
         }
 
-        return await res.json()
+        await res.text()
+        return true
     }
     catch (e) {
         console.log('Erro: ', e.message)
-        return []
-    }
-}
-
-async function buscarTagDocs() {
-    try {
-        const res = await fetch('http://localhost:8080/api/tagDoc')
-
-        if (!res.ok) {
-            throw new Error(`Erro HTTP: ${res.status}`)
-        }
-
-        return await res.json()
-    }
-    catch (e) {
-        console.log('Erro: ', e.message)
-        return []
+        return false
     }
 }
 
@@ -178,16 +174,6 @@ async function buscarTagDocs() {
 
 function limparCards() {
     document.querySelectorAll('#cont_documentos .card_doc').forEach(el => el.remove())
-}
-
-function tagsDoDocumento(idDocumento) {
-    return tagDocsCache
-        .filter(td => td.documento && td.documento.idDocumento === idDocumento)
-        .map(td => {
-            const tag = tagsCache.find(t => t.idTag === (td.tag ? td.tag.idTag : null))
-            return tag ? tag.tag : null
-        })
-        .filter(nome => nome)
 }
 
 function rendCards(documentos) {
@@ -230,22 +216,9 @@ function rendCards(documentos) {
         previa.textContent = item.conteudo || item.previa || ''
         contTrecho.appendChild(previa)
 
-        const contTags = document.createElement('div')
-        contTags.className = 'cont_tags'
-        tagsDoDocumento(item.idDocumento).forEach(nome => {
-            const contTag = document.createElement('div')
-            contTag.className = 'cont_tag'
-            const tag = document.createElement('p')
-            tag.className = 'tagDoc'
-            tag.textContent = `# ${nome}`
-            contTag.appendChild(tag)
-            contTags.appendChild(contTag)
-        })
-
         contDocumento.appendChild(contStatus)
         contDocumento.appendChild(contTitulo)
         contDocumento.appendChild(contTrecho)
-        contDocumento.appendChild(contTags)
 
         card.appendChild(contDocumento)
         fragmento.appendChild(card)
@@ -394,41 +367,6 @@ function filtrarStatus() {
 
         limparCards()
         rendCards(filtrados)
-    })
-}
-
-function novaPasta() {
-    const btnNovaPasta = document.getElementById('btn_novaPasta')
-
-    btnNovaPasta.addEventListener('click', async () => {
-        const nome = prompt('Nome da nova pasta:')
-        if (!nome || !nome.trim()) {
-            return
-        }
-
-        const id = sessionStorage.getItem('usuarioLogado')
-
-        try {
-            const res = await fetch('http://localhost:8080/api/caderno', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    caderno: nome.trim(),
-                    usuario: { idUsuario: Number(id) }
-                })
-            })
-
-            if (!res.ok) {
-                throw new Error(`Erro HTTP: ${res.status}`)
-            }
-
-            await res.text()
-            window.location.reload()
-        }
-        catch (e) {
-            console.log('Erro: ', e.message)
-            alert('Não foi possível criar a pasta.')
-        }
     })
 }
 
