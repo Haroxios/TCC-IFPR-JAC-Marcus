@@ -95,40 +95,46 @@ function salvar() {
     const btnSalvar = document.getElementById('btn_salvar')
 
     btnSalvar.addEventListener('click', async () => {
-        const titulo = document.getElementById('h1_tituloDocumento').textContent.trim()
-        const conteudo = document.getElementById('p_textoDocumento').innerText
-
-        if (!titulo) {
-            alert('O título é obrigatório.')
-            return
-        }
-
-        const docAtual = {
-            idDocumento: idDocumento,
-            titulo: titulo,
-            conteudo: conteudo,
-            caderno: { idCaderno: cadernoId }
-        }
-
-        try {
-            const response = await fetch(`http://localhost:8080/api/documento/${idDocumento}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(docAtual)
-            })
-
-            if (!response.ok) {
-                throw new Error(`Erro HTTP: ${response.status}`)
-            }
-
-            await response.text()
-            console.log('Documento salvo.')
-        }
-        catch (e) {
-            console.log('Erro: ' + e.message)
-            alert('Não foi possível salvar o documento.')
-        }
+        await gravarDocumento()
     })
+}
+
+async function gravarDocumento() {
+    const titulo = document.getElementById('h1_tituloDocumento').textContent.trim()
+    const conteudo = document.getElementById('p_textoDocumento').innerText
+
+    if (!titulo) {
+        alert('O título é obrigatório.')
+        return false
+    }
+
+    const docAtual = {
+        idDocumento: idDocumento,
+        titulo: titulo,
+        conteudo: conteudo,
+        caderno: { idCaderno: cadernoId }
+    }
+
+    try {
+        const response = await fetch(`http://localhost:8080/api/documento/${idDocumento}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(docAtual)
+        })
+
+        if (!response.ok) {
+            throw new Error(`Erro HTTP: ${response.status}`)
+        }
+
+        await response.text()
+        console.log('Documento salvo.')
+        return true
+    }
+    catch (e) {
+        console.log('Erro: ' + e.message)
+        alert('Não foi possível salvar o documento.')
+        return false
+    }
 }
 
 /*
@@ -146,10 +152,20 @@ function acoesRevisao() {
         btn_reativar: 'reativar'
     }
 
+    const salvaAntes = ['btn_revisar', 'btn_adiar', 'btn_concluir']
+
     Object.keys(acoes).forEach(idBotao => {
         const botao = document.getElementById(idBotao)
 
         botao.addEventListener('click', async () => {
+            if (salvaAntes.includes(idBotao)) {
+                const salvo = await gravarDocumento()
+
+                if (!salvo) {
+                    return
+                }
+            }
+
             const ok = await chamarStatus(acoes[idBotao])
 
             if (!ok) {

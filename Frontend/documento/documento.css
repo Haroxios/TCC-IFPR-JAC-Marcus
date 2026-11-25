@@ -95,12 +95,41 @@
 }
 
 #cont_edicaoTexto {
-    height: 20%;
     margin: 5px;
+    padding: 10px;
 }
 
 #cont_informacoesDocumento {
-    height: 70%;
     margin: 5px;
+    padding: 10px;
     gap: 10px;
+}
+
+#cont_menuDireito button {
+    height: 40px;
+    border: 3px solid #334155;
+    border-radius: 10px;
+    background-color: #0F172A;
+    color: #F8FAFC;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+#cont_menuDireito button:active {
+    background-color: #334155;
+}
+
+#btn_salvar, #btn_revisar {
+    background-color: #4772F9;
+    border-color: #4772F9;
+}
+
+#btn_deletar {
+    color: #F87171;
+}
+
+#a_voltar {
+    color: #F8FAFC;
+    text-decoration: none;
+    font-size: 24px;
 }

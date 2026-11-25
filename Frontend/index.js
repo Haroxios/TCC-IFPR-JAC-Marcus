@@ -7,6 +7,12 @@ function logar() {
     const inpEmail = document.getElementById('inp_email')
     const inpSenha = document.getElementById('inp_senha')
 
+    inpSenha.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            btnLogin.click()
+        }
+    })
+
     btnLogin.addEventListener('click', async () => {
         const email = inpEmail.value.trim()
         const senha = inpSenha.value

@@ -58,7 +58,6 @@ function renderizar(documentos) {
     }))
 
     rendProximasRev(docListar)
-    rendCadernos(cadernosCache)
 }
 
 function nomeCaderno(idCaderno) {
@@ -173,7 +172,8 @@ async function criarCadernoPadrao(id) {
 */
 
 function limparCards() {
-    document.querySelectorAll('#cont_documentos .card_doc').forEach(el => el.remove())
+    document.querySelectorAll('#cont_documentos .card_doc, #cont_documentos .msg_vazio').forEach(el => el.remove())
+
 }
 
 function rendCards(documentos) {
@@ -247,7 +247,7 @@ function rendProximasRev(documentos) {
     proximasRevisoes.appendChild(fragmento)
 }
 
-function rendCadernos(cadernos) {
+/*function rendCadernos(cadernos) {
     const listaCadernos = document.getElementById('cont_listaCadernos')
     const fragmento = document.createDocumentFragment()
 
@@ -267,7 +267,7 @@ function rendCadernos(cadernos) {
     })
 
     listaCadernos.appendChild(fragmento)
-}
+}*/
 
 /*
 -----------------------------------------------------------
